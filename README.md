@@ -2,7 +2,7 @@
 
 ![frontPhoto](./.github/assets/title.png)
 
-[English](README.md) | [简体中文](README-zh.md)
+[English](README.md) | [简体中文](README-zh.md) | [O‘zbekcha](README-uz.md)
 
 The Ultimate Web Recreation of Apple’s Liquid Glass UI, powered by WebGL2 and shaders. Includes most Liquid Glass features with fine-grained controls for detailed customization.
 

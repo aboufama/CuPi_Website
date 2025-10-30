@@ -4,11 +4,12 @@ import { exportPreset, importPreset } from '../../utils/presetUtils';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
 import styles from './PresetControls.module.scss';
+import { type useLevaControls } from '../../Controls';
 
 export interface PresetControlsProps {
-  controls: Record<string, any>;
-  controlsAPI: any;
-  lang: any;
+  controls: ReturnType<typeof useLevaControls>['controls'];
+  controlsAPI: ReturnType<typeof useLevaControls>['controlsAPI'];
+  lang: ReturnType<typeof useLevaControls>['lang'];
 }
 
 export const PresetControls = ({ controls, controlsAPI, lang }: PresetControlsProps) => {
@@ -40,9 +41,9 @@ export const PresetControls = ({ controls, controlsAPI, lang }: PresetControlsPr
       } else {
         console.error('controlsAPI is not a function. Import may fail.', controlsAPI);
       }
-      alert('Preset imported successfully!');
+      alert(lang['editor.importSuccessMessage']);
     } catch (err) {
-      alert(`Import failed: ${err instanceof Error ? err.message : 'Unknown error'}`);
+      alert(lang['editor.importFailedMessage'](err instanceof Error ? err.message : 'Unknown error'));
     }
 
     if (fileInputRef.current) {

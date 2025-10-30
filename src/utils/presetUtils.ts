@@ -1,11 +1,14 @@
-
+import { type useLevaControls } from '../Controls';
 export interface PresetData {
   version: string;
   timestamp: string;
-  controls: Record<string, any>;
+  controls: ReturnType<typeof useLevaControls>['controls'];
 }
 
-export function exportPreset(controls: Record<string, any>, filename: string = 'liquid-glass-preset.json'): void {
+export function exportPreset(
+  controls: ReturnType<typeof useLevaControls>['controls'],
+  filename: string = 'liquid-glass-preset.json',
+): void {
   const preset: PresetData = {
     version: '1.0.0',
     timestamp: new Date().toISOString(),

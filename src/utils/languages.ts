@@ -39,6 +39,8 @@ export default {
     'editor.debugSettings': '调试',
     'editor.export': '导出预设',
     'editor.import': '导入预设',
+    'editor.importSuccessMessage': '预设导入成功！',
+    'editor.importFailedMessage': (message: string) => `导入失败：${message}`,
   },
   ['en-US']: {
     '_settings': {
@@ -80,6 +82,8 @@ export default {
     'editor.debugSettings': 'Debug',
     'editor.export': 'Export Preset',
     'editor.import': 'Import Preset',
+    'editor.importSuccessMessage': 'Preset imported successfully!',
+    'editor.importFailedMessage': (message: string) => `Import failed: ${message}`,
   },
   ['uz-UZ']: {
     '_settings': {
@@ -120,6 +124,8 @@ export default {
     "editor.springSizeFactor": "Animatsiya deformatsiyasi",
     "editor.debugSettings": "Debug",
     "editor.export": "Presetni eksport qilish",
-    "editor.import": "Presetni import qilish"
+    "editor.import": "Presetni import qilish",
+    "editor.importSuccessMessage": "Preset muvaffaqiyatli import qilindi!",
+    "editor.importFailedMessage": (message: string) => `Import failed: ${message}`,
   }
 }

@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About | Cornell Physical Intelligence</title>
+  <link rel="icon" type="image/png" href="Favicon.png">
+  <link href="https://fonts.googleapis.com/css2?family=Questrial&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      overscroll-behavior: none;
+      overscroll-behavior-y: none;
+    }
+
+    :root {
+      --top-nav-height: clamp(2.6rem, 4vw, 3.2rem);
+      --nav-link-min-width: clamp(100px, 12vw, 140px);
+      --nav-link-padding-block: clamp(0.36rem, 1.2vw, 0.52rem);
+      --nav-link-padding-inline: clamp(0.95rem, 2.8vw, 1.6rem);
+      --nav-apply-min-width: clamp(124px, 15vw, 168px);
+    }
+
+    body {
+      font-family: 'Questrial', sans-serif;
+      background: white;
+      color: #000;
+      overflow-x: hidden;
+      overscroll-behavior: none;
+      overscroll-behavior-y: none;
+      padding-top: calc(var(--top-nav-height) + clamp(0.5rem, 2vw, 0.9rem));
+    }
+
+    .top-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 10000;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(4px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+      box-shadow: 
+        inset 0 1px 1px rgba(255, 255, 255, 0.5),
+        0 8px 20px rgba(15, 15, 15, 0.08);
+      cursor: default;
+    }
+
+    .top-nav__inner {
+      max-width: min(1180px, 92vw);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: var(--top-nav-height);
+      padding: clamp(0.35rem, 1.3vw, 0.65rem) clamp(1.3rem, 3.6vw, 2.6rem);
+    }
+
+    .top-nav__brand {
+      font-family: 'Questrial', sans-serif;
+      font-size: clamp(1.05rem, 2vw, 1.35rem);
+      font-weight: 700;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: #101a28;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .top-nav__list {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: clamp(0.85rem, 2.4vw, 1.8rem);
+      padding: 0;
+      margin: 0;
+    }
+
+    .top-nav__link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: var(--nav-link-min-width);
+      padding: var(--nav-link-padding-block) var(--nav-link-padding-inline);
+      border-radius: clamp(0.6rem, 1.5vw, 0.9rem);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 600;
+      font-size: clamp(0.64rem, 1.25vw, 0.82rem);
+      color: #132031;
+      background: rgba(255, 255, 255, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.45);
+      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.6), 0 4px 12px rgba(15, 15, 15, 0.08);
+      text-decoration: none;
+      backdrop-filter: blur(8px);
+      transition: all 0.2s ease;
+    }
+
+    .top-nav__link:hover {
+      background: rgba(255, 255, 255, 0.35);
+      border-color: rgba(255, 255, 255, 0.6);
+      box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.7), 0 6px 16px rgba(15, 15, 15, 0.12);
+    }
+
+    .top-nav__link[aria-current="page"] {
+      background: rgba(255, 255, 255, 0.5);
+      border-color: rgba(255, 255, 255, 0.75);
+      box-shadow: inset 0 1.5px 2px rgba(255, 255, 255, 0.75), 0 8px 20px rgba(15, 15, 15, 0.15);
+    }
+
+    .top-nav__apply {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: var(--nav-apply-min-width);
+      padding: var(--nav-link-padding-block) clamp(1.35rem, 3vw, 1.95rem);
+      border-radius: clamp(0.7rem, 1.6vw, 1rem);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-weight: 700;
+      font-size: clamp(0.66rem, 1.3vw, 0.88rem);
+      color: #0b223c;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.6) 0%, rgba(224, 236, 255, 0.5) 45%, rgba(205, 227, 255, 0.45) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      box-shadow: inset 0 1.5px 2px rgba(255, 255, 255, 0.8), 0 6px 18px rgba(11, 34, 60, 0.15);
+      text-decoration: none;
+      white-space: nowrap;
+      backdrop-filter: blur(8px);
+      transition: all 0.2s ease;
+    }
+
+    .top-nav__apply:hover {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.75) 0%, rgba(224, 236, 255, 0.65) 45%, rgba(205, 227, 255, 0.6) 100%);
+      box-shadow: inset 0 2px 3px rgba(255, 255, 255, 0.85), 0 8px 24px rgba(11, 34, 60, 0.2);
+    }
+
+    .about-section {
+      width: 100%;
+      padding: 3rem 1.5rem 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-family: 'Questrial', sans-serif;
+      text-align: center;
+      margin-bottom: 3rem;
+      color: #B31B1B;
+    }
+
+    .section-subtitle {
+      font-size: clamp(0.85rem, 1.8vw, 1.1rem);
+      font-family: 'Questrial', sans-serif;
+      text-align: center;
+      margin: 0 0 0.6rem;
+      color: #666;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+
+    .team-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2.5rem;
+      width: 100%;
+    }
+
+    .team-container > div {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+
+    .team-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 1.17rem;
+      width: 100%;
+      margin: 0 auto;
+      max-width: 1000px;
+    }
+
+    @media (max-width: 899px) and (min-width: 640px) {
+      .team-grid {
+        max-width: calc((198px * 3) + (1.17rem * 2));
+      }
+    }
+
+    @media (max-width: 639px) and (min-width: 420px) {
+      .team-grid {
+        max-width: calc((198px * 2) + (1.17rem * 1));
+      }
+    }
+
+    @media (max-width: 419px) {
+      .team-grid {
+        max-width: 198px;
+      }
+    }
+
+    .team-card {
+      position: relative;
+      border-radius: 1.35rem;
+      overflow: hidden;
+      box-shadow: 0 4px 4px rgba(0, 0, 0, 0.05), 0 0 15px rgba(0, 0, 0, 0.03);
+      transition: box-shadow 0.3s ease;
+      background: white;
+    }
+
+    .team-card:hover {
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1), 0 0 25px rgba(0, 0, 0, 0.05);
+    }
+
+    .team-image-wrapper {
+      width: 100%;
+      height: 251px;
+      background: linear-gradient(135deg, rgba(200, 200, 200, 0.3) 0%, rgba(150, 150, 150, 0.2) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .team-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 20%;
+      display: block;
+    }
+
+    .team-bio-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(8px);
+      opacity: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.35rem;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .team-card:hover .team-bio-overlay {
+      opacity: 1;
+    }
+
+    .team-bio-content {
+      position: relative;
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      border-radius: 0.9rem;
+      padding: 1.35rem;
+      box-shadow: 
+        inset 0 1px 1px rgba(255, 255, 255, 0.6),
+        0 8px 20px rgba(15, 15, 15, 0.15);
+      max-height: 100%;
+      overflow-y: auto;
+      isolation: isolate;
+    }
+
+    .team-bio-content::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      backdrop-filter: blur(2.5px);
+      filter: url(#glass-distortion);
+      pointer-events: none;
+      z-index: 1;
+      border-radius: 0.9rem;
+    }
+
+    .team-bio-content::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255, 255, 255, 0.08);
+      pointer-events: none;
+      z-index: 2;
+      border-radius: 0.9rem;
+      box-shadow: inset 2px 2px 1px 0 rgba(255, 255, 255, 0.6),
+        inset -1px -1px 1px 1px rgba(255, 255, 255, 0.6);
+    }
+
+    .team-bio-text {
+      position: relative;
+      z-index: 3;
+      font-size: 0.7rem;
+      line-height: 1.3;
+      color: #000;
+      text-align: center;
+    }
+
+    .team-placeholder {
+      width: 108px;
+      height: 108px;
+      border-radius: 50%;
+      background: rgba(180, 180, 180, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.7rem;
+      color: rgba(100, 100, 100, 0.6);
+      font-weight: 700;
+      border: 3px solid rgba(255, 255, 255, 0.5);
+    }
+
+    .team-content {
+      padding: 0.8rem;
+      position: relative;
+      isolation: isolate;
+    }
+
+    .team-content::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      backdrop-filter: blur(2.5px);
+      filter: url(#glass-distortion);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .team-content::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255, 255, 255, 0.04);
+      pointer-events: none;
+      z-index: 2;
+      box-shadow: inset 2px 2px 1px 0 rgba(255, 255, 255, 0.6),
+        inset -1px -1px 1px 1px rgba(255, 255, 255, 0.6);
+    }
+
+    .team-name {
+      font-size: 0.98rem;
+      font-family: 'Questrial', sans-serif;
+      color: #000;
+      margin-bottom: 0.25rem;
+      position: relative;
+      z-index: 3;
+      text-align: center;
+    }
+
+    .team-role {
+      font-size: 0.81rem;
+      color: #666;
+      font-weight: 500;
+      position: relative;
+      z-index: 3;
+      text-align: center;
+    }
+
+    footer {
+      font-size: 0.65rem;
+      color: #555;
+      text-align: center;
+      padding: 2rem 1rem 1.5rem;
+      line-height: 1.4;
+      font-family: 'Questrial', sans-serif;
+    }
+
+    footer a {
+      color: inherit;
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding-top: calc(var(--top-nav-height) + clamp(0.85rem, 4vw, 1.4rem));
+      }
+
+      .team-grid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 1.5rem;
+      }
+
+      .top-nav__inner {
+        flex-direction: column;
+        gap: clamp(0.8rem, 3vw, 1.4rem);
+      }
+
+      .top-nav__brand {
+        text-align: center;
+      }
+
+      .top-nav__list {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: clamp(0.75rem, 3vw, 1.4rem);
+      }
+
+      .top-nav__link,
+      .top-nav__apply {
+        width: min(100%, 320px);
+        min-width: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="top-nav">
+    <div class="top-nav__inner">
+      <a class="top-nav__brand" href="index.html">CuPi</a>
+      <nav aria-label="Primary navigation">
+        <ul class="top-nav__list">
+          <li>
+            <a class="top-nav__link" href="index.html">Home</a>
+          </li>
+          <li>
+            <a class="top-nav__link" href="projects.html">Work</a>
+          </li>
+          <li>
+            <a class="top-nav__link" href="about.html" aria-current="page">About</a>
+          </li>
+        </ul>
+      </nav>
+      <a class="top-nav__apply" href="https://forms.gle/NUHEUKpAo13qafat7" target="_blank" rel="noopener">Apply</a>
+    </div>
+  </header>
+
+  <section class="about-section">
+    <h1 class="section-title">Our Team</h1>
+
+    <div class="team-container">
+      <div>
+        <h2 class="section-subtitle">Mechanical</h2>
+        <div class="team-grid">
+      <div class="team-card">
+        <div class="team-image-wrapper">
+          <img src="Headshots/Andre.png" alt="Andre Boufama" class="team-image">
+          <div class="team-bio-overlay">
+            <div class="team-bio-content">
+              <div class="team-bio-text">Hi I'm Andre. I like making websites and CAD and also eating</div>
+            </div>
+          </div>
+        </div>
+        <div class="team-content">
+          <div class="team-name">Andre Boufama</div>
+          <div class="team-role">full team lead</div>
+        </div>
+      </div>
+
+      <div class="team-card">
+        <div class="team-image-wrapper">
+          <img src="Headshots/Ollie.png" alt="Ollie Aizer" class="team-image">
+          <div class="team-bio-overlay">
+            <div class="team-bio-content">
+              <div class="team-bio-text">Hi, my name is Ollie and I like drone design and cooking.</div>
+            </div>
+          </div>
+        </div>
+        <div class="team-content">
+          <div class="team-name">Ollie Aizer</div>
+        </div>
+      </div>
+
+      <div class="team-card">
+        <div class="team-image-wrapper">
+          <img src="Headshots/Daniel.png" alt="Daniel Sheth" class="team-image">
+          <div class="team-bio-overlay">
+            <div class="team-bio-content">
+              <div class="team-bio-text">I am an aspiring mechanical engineer interested in aerodynamics and propulsion systems</div>
+            </div>
+          </div>
+        </div>
+        <div class="team-content">
+          <div class="team-name">Daniel Sheth</div>
+        </div>
+      </div>
+
+      <div class="team-card">
+        <div class="team-image-wrapper">
+          <img src="Headshots/Lindsay.png" alt="Lindsay Kossoff" class="team-image">
+          <div class="team-bio-overlay">
+            <div class="team-bio-content">
+              <div class="team-bio-text">Hi, my name is Lindsay Kossoff. I am a freshman from Maryland studying mechanical engineering.</div>
+            </div>
+          </div>
+        </div>
+        <div class="team-content">
+          <div class="team-name">Lindsay Kossoff</div>
+        </div>
+      </div>
+
+      <div class="team-card">
+        <div class="team-image-wrapper">
+          <img src="Headshots/Alan.png" alt="Alan Munschy" class="team-image">
+          <div class="team-bio-overlay">
+            <div class="team-bio-content">
+              <div class="team-bio-text">Hi, I like working on robot controls and I play chess</div>
+            </div>
+          </div>
+        </div>
+        <div class="team-content">
+          <div class="team-name">Alan Munschy</div>
+        </div>
+      </div>
+
+      <div class="team-card">
+        <div class="team-image-wrapper">
+          <img src="Headshots/Hamza.png" alt="Hamza Waseem" class="team-image">
+          <div class="team-bio-overlay">
+            <div class="team-bio-content">
+              <div class="team-bio-text">Hi my name is Hamza Waseem and I am a freshman studying mechanical engineering</div>
+            </div>
+          </div>
+        </div>
+        <div class="team-content">
+          <div class="team-name">Hamza Waseem</div>
+        </div>
+      </div>
+
+      <div class="team-card">
+        <div class="team-image-wrapper">
+          <img src="Headshots/Chris.png" alt="Chris Guillen-Chacon" class="team-image">
+          <div class="team-bio-overlay">
+            <div class="team-bio-content">
+              <div class="team-bio-text">My name is Chris and I'm interested in drone design</div>
+            </div>
+          </div>
+        </div>
+        <div class="team-content">
+          <div class="team-name">Chris Guillen-Chacon</div>
+        </div>
+        </div>
+      </div>
+    </div>
+
+      <div>
+        <h2 class="section-subtitle">Software</h2>
+        <div class="team-grid">
+      <div class="team-card">
+        <div class="team-image-wrapper">
+          <img src="Headshots/NickLet.png" alt="Nicholas Letendre" class="team-image">
+          <div class="team-bio-overlay">
+            <div class="team-bio-content">
+              <div class="team-bio-text">I'm Nicholas, and I am sophomore studying mechanical and aerospace engineering. I'm interested in programming for robotics and games.</div>
+            </div>
+          </div>
+        </div>
+        <div class="team-content">
+          <div class="team-name">Nicholas Letendre</div>
+        </div>
+      </div>
+
+      <div class="team-card">
+        <div class="team-image-wrapper">
+          <img src="Headshots/NickLen.png" alt="Nick Lennon" class="team-image">
+          <div class="team-bio-overlay">
+            <div class="team-bio-content">
+              <div class="team-bio-text">Hey, my name is Nick Lennon and I am interested in software, firmware, modeling, team coordination, and spicy food!</div>
+            </div>
+          </div>
+        </div>
+        <div class="team-content">
+          <div class="team-name">Nick Lennon</div>
+        </div>
+      </div>
+
+      <div class="team-card">
+        <div class="team-image-wrapper">
+          <img src="Headshots/Jon.png" alt="Jonathan Song" class="team-image">
+          <div class="team-bio-overlay">
+            <div class="team-bio-content">
+              <div class="team-bio-text">I'm really passionate about integrated electronics and anything robotics. In my free time I like to play ultimate frisbee and acoustic guitar</div>
+            </div>
+          </div>
+        </div>
+        <div class="team-content">
+          <div class="team-name">Jonathan Song</div>
+        </div>
+      </div>
+
+      <div class="team-card">
+        <div class="team-image-wrapper">
+          <img src="Headshots/Ronan.png" alt="Ronan Alo" class="team-image">
+          <div class="team-bio-overlay">
+            <div class="team-bio-content">
+              <div class="team-bio-text">I am a sophomore majoring in mechanical engineering and computer science, interested in drone pathing</div>
+            </div>
+          </div>
+        </div>
+        <div class="team-content">
+          <div class="team-name">Ronan Alo</div>
+        </div>
+      </div>
+
+      <div class="team-card">
+        <div class="team-image-wrapper">
+          <img src="Headshots/Mic.png" alt="Mic Robbins" class="team-image">
+          <div class="team-bio-overlay">
+            <div class="team-bio-content">
+              <div class="team-bio-text">I'm a sophmore eletrical engineer and like to play clash royale (15k)</div>
+            </div>
+          </div>
+        </div>
+        <div class="team-content">
+          <div class="team-name">Mic Robbins</div>
+        </div>
+        </div>
+      </div>
+    </div>
+
+      <div>
+        <h2 class="section-subtitle">Business</h2>
+        <div class="team-grid">
+      <div class="team-card">
+        <div class="team-image-wrapper">
+          <img src="Headshots/Anthony.png" alt="Anthony Parlatore" class="team-image">
+          <div class="team-bio-overlay">
+            <div class="team-bio-content">
+              <div class="team-bio-text">I'm Anthony, senior ChemE in masters of MechE interested in new technology (and I really like drones)</div>
+            </div>
+          </div>
+        </div>
+        <div class="team-content">
+          <div class="team-name">Anthony Parlatore</div>
+        </div>
+      </div>
+
+      <div class="team-card">
+        <div class="team-image-wrapper">
+          <img src="Headshots/Hamilton.png" alt="Hamilton" class="team-image">
+          <div class="team-bio-overlay">
+            <div class="team-bio-content">
+              <div class="team-bio-text">I'm a BioStats major, I like competing in Taekwondo and playing piano</div>
+            </div>
+          </div>
+        </div>
+        <div class="team-content">
+          <div class="team-name">Hamilton</div>
+        </div>
+      </div>
+    </div>
+      </div>
+
+      <div>
+        <h2 class="section-subtitle">Faculty</h2>
+        <div class="team-grid">
+      <div class="team-card">
+        <div class="team-image-wrapper">
+          <img src="Headshots/ProfWelde.png" alt="Professor Welde" class="team-image">
+          <div class="team-bio-overlay">
+            <div class="team-bio-content">
+              <div class="team-bio-text">He has worked extensively in drone control systems</div>
+            </div>
+          </div>
+        </div>
+        <div class="team-content">
+          <div class="team-name">Professor Welde</div>
+        </div>
+      </div>
+    </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div>This organization is a registered student organization of Cornell University.</div>
+    <div>Equal Education and Employment: <a href="https://hr.cornell.edu/about/workplace-rights/equal-education-and-employment">https://hr.cornell.edu/about/workplace-rights/equal-education-and-employment</a></div>
+    <div>For Questions &amp; Sponsorship Inquiries:</div>
+    <div>Contact <a href="mailto:cuphysicalintelligence@cornell.org">cuphysicalintelligence@cornell.org</a></div>
+  </footer>
+
+  <svg style="display: none">
+    <filter id="glass-distortion" x="0%" y="0%" width="100%" height="100%" filterUnits="objectBoundingBox">
+      <feTurbulence type="fractalNoise" baseFrequency="0.01 0.01" numOctaves="1" seed="5" result="turbulence" />
+      <feComponentTransfer in="turbulence" result="mapped">
+        <feFuncR type="gamma" amplitude="1" exponent="10" offset="0.5" />
+        <feFuncG type="gamma" amplitude="0" exponent="1" offset="0" />
+        <feFuncB type="gamma" amplitude="0" exponent="1" offset="0.5" />
+      </feComponentTransfer>
+      <feGaussianBlur in="turbulence" stdDeviation="4" result="softMap" />
+      <feSpecularLighting in="softMap" surfaceScale="5" specularConstant="1" specularExponent="100" lighting-color="white" result="specLight">
+        <fePointLight x="-200" y="-200" z="300" />
+      </feSpecularLighting>
+      <feComposite in="specLight" operator="arithmetic" k1="0" k2="1" k3="1" k4="0" result="litImage" />
+      <feDisplacementMap in="SourceGraphic" in2="softMap" scale="15" xChannelSelector="R" yChannelSelector="G" />
+    </filter>
+  </svg>
+</body>
+</html>

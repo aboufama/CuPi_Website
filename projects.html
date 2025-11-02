@@ -1,0 +1,1274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projects | Cornell Physical Intelligence</title>
+  <link rel="icon" type="image/png" href="Favicon.png">
+  <link href="https://fonts.googleapis.com/css2?family=Questrial&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      overscroll-behavior: none;
+      overscroll-behavior-y: none;
+    }
+
+    :root {
+      --nav-height: clamp(2.6rem, 4vw, 3.2rem);
+      --nav-link-min-width: clamp(100px, 12vw, 140px);
+      --nav-link-padding-block: clamp(0.36rem, 1.2vw, 0.52rem);
+      --nav-link-padding-inline: clamp(0.95rem, 2.8vw, 1.6rem);
+      --nav-apply-min-width: clamp(124px, 15vw, 168px);
+    }
+
+    body {
+      font-family: 'Questrial', sans-serif;
+      background: white;
+      color: #000;
+      overflow-x: hidden;
+      overscroll-behavior: none;
+      overscroll-behavior-y: none;
+      padding-top: 0;
+    }
+
+    .top-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 10000;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(4px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+      box-shadow: 
+        inset 0 1px 1px rgba(255, 255, 255, 0.5),
+        0 8px 20px rgba(15, 15, 15, 0.08);
+      cursor: default;
+    }
+
+    .top-nav__inner {
+      max-width: min(1180px, 92vw);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: var(--nav-height);
+      padding: clamp(0.35rem, 1.3vw, 0.65rem) clamp(1.3rem, 3.6vw, 2.6rem);
+    }
+
+    .top-nav__brand {
+      font-family: 'Questrial', sans-serif;
+      font-size: clamp(1.05rem, 2vw, 1.35rem);
+      font-weight: 700;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: #101a28;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .top-nav__list {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: clamp(0.85rem, 2.4vw, 1.8rem);
+      padding: 0;
+      margin: 0;
+    }
+
+    .top-nav__link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: var(--nav-link-min-width);
+      padding: var(--nav-link-padding-block) var(--nav-link-padding-inline);
+      border-radius: clamp(0.6rem, 1.5vw, 0.9rem);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 600;
+      font-size: clamp(0.64rem, 1.25vw, 0.82rem);
+      color: #132031;
+      background: rgba(255, 255, 255, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.45);
+      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.6), 0 4px 12px rgba(15, 15, 15, 0.08);
+      text-decoration: none;
+      backdrop-filter: blur(8px);
+      transition: all 0.2s ease;
+    }
+
+    .top-nav__link:hover {
+      background: rgba(255, 255, 255, 0.35);
+      border-color: rgba(255, 255, 255, 0.6);
+      box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.7), 0 6px 16px rgba(15, 15, 15, 0.12);
+    }
+
+    .top-nav__link[aria-current="page"] {
+      background: rgba(255, 255, 255, 0.5);
+      border-color: rgba(255, 255, 255, 0.75);
+      box-shadow: inset 0 1.5px 2px rgba(255, 255, 255, 0.75), 0 8px 20px rgba(15, 15, 15, 0.15);
+    }
+
+    .top-nav__apply {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: var(--nav-apply-min-width);
+      padding: var(--nav-link-padding-block) clamp(1.35rem, 3vw, 1.95rem);
+      border-radius: clamp(0.7rem, 1.6vw, 1rem);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-weight: 700;
+      font-size: clamp(0.66rem, 1.3vw, 0.88rem);
+      color: #0b223c;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.6) 0%, rgba(224, 236, 255, 0.5) 45%, rgba(205, 227, 255, 0.45) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      box-shadow: inset 0 1.5px 2px rgba(255, 255, 255, 0.8), 0 6px 18px rgba(11, 34, 60, 0.15);
+      text-decoration: none;
+      white-space: nowrap;
+      backdrop-filter: blur(8px);
+      transition: all 0.2s ease;
+    }
+
+    .top-nav__apply:hover {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.75) 0%, rgba(224, 236, 255, 0.65) 45%, rgba(205, 227, 255, 0.6) 100%);
+      box-shadow: inset 0 2px 3px rgba(255, 255, 255, 0.85), 0 8px 24px rgba(11, 34, 60, 0.2);
+    }
+
+    .projects-section {
+      width: 100%;
+      padding: 4rem 1.5rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .projects-section:first-of-type {
+      padding: calc(var(--nav-height) + 2rem) 1.5rem 0.5rem;
+    }
+
+    .hero-image {
+      width: 100%;
+      overflow: hidden;
+      position: relative;
+      margin-top: 0;
+      background: #f0f0f0;
+    }
+
+    .hero-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .section-title {
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-family: 'Questrial', sans-serif;
+      text-align: center;
+      margin-bottom: 3rem;
+      color: #B31B1B;
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2.5rem;
+      margin-top: 2rem;
+    }
+
+    .project-card {
+      position: relative;
+      border-radius: 2rem;
+      overflow: hidden;
+      box-shadow: 0 4px 4px rgba(0, 0, 0, 0.05), 0 0 15px rgba(0, 0, 0, 0.03);
+      background: white;
+    }
+
+    .project-image {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .project-content {
+      padding: 2rem;
+      position: relative;
+      isolation: isolate;
+    }
+
+    .project-content::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      backdrop-filter: blur(2.5px);
+      filter: url(#glass-distortion);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .project-content::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255, 255, 255, 0.04);
+      pointer-events: none;
+      z-index: 2;
+      box-shadow: inset 2px 2px 1px 0 rgba(255, 255, 255, 0.6),
+        inset -1px -1px 1px 1px rgba(255, 255, 255, 0.6);
+    }
+
+    .project-title {
+      font-size: 1.75rem;
+      font-family: 'Questrial', sans-serif;
+      color: #B31B1B;
+      margin-bottom: 1rem;
+      position: relative;
+      z-index: 3;
+    }
+
+    .project-description {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #555;
+      position: relative;
+      z-index: 3;
+    }
+
+    footer {
+      font-size: 0.65rem;
+      color: #555;
+      text-align: center;
+      padding: 3rem 1rem 2.5rem;
+      line-height: 1.4;
+      font-family: 'Questrial', sans-serif;
+    }
+
+    footer a {
+      color: inherit;
+      text-decoration: underline;
+    }
+
+    /* TIMELINE STYLES */
+
+    .timeline-section {
+      padding: 6rem 0 2rem 0;
+      background: white;
+    }
+
+    .timeline-section-title {
+      font-size: clamp(1.4rem, 3vw, 1.9rem);
+      font-family: 'Questrial', sans-serif;
+      text-align: center;
+      margin-bottom: 3rem;
+      color: #B31B1B;
+    }
+
+    .timeline-hint {
+      font-size: clamp(0.9rem, 2vw, 1.2rem);
+      color: #666;
+      font-weight: 400;
+    }
+
+    .timeline {
+      position: relative;
+      width: 100%;
+      margin: 0 auto;
+      padding: 2rem 0;
+      overflow: visible;
+    }
+
+    .timeline-line {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: #000;
+      transform: translateY(-50%);
+      z-index: 2;
+    }
+
+    .timeline-items {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 clamp(2rem, 8vw, 4.5rem);
+      gap: clamp(1.5rem, 4vw, 3.5rem);
+      align-items: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .timeline-event {
+      position: relative;
+      text-align: center;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 120px;
+      z-index: 3;
+    }
+
+    .timeline-event::before {
+      content: '';
+      width: 12px;
+      height: 12px;
+      background: #000;
+      border-radius: 50%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 2;
+    }
+
+    .timeline-event:nth-child(odd) {
+      justify-content: flex-end;
+      padding-bottom: 2rem;
+    }
+
+    .timeline-event:nth-child(even) {
+      justify-content: flex-start;
+      padding-top: 2rem;
+    }
+
+    .timeline-date {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #666;
+      position: absolute;
+      top: calc(50% + 1rem);
+      left: 50%;
+      transform: translateX(-50%);
+      white-space: nowrap;
+      z-index: 3;
+    }
+
+    .timeline-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #B31B1B;
+      max-width: 140px;
+      border: 1px solid #B31B1B;
+      padding: 0.5rem 0.75rem;
+      border-radius: 0.5rem;
+      position: relative;
+      z-index: 3;
+    }
+
+    .timeline-event:nth-child(odd) .timeline-title {
+      position: absolute;
+      bottom: calc(50% + 2.5rem);
+    }
+
+    .timeline-event:nth-child(even) .timeline-title {
+      position: absolute;
+      top: calc(50% + 2.5rem);
+    }
+
+    .timeline-divider {
+      position: absolute;
+      top: 1.2rem;
+      bottom: 1.2rem;
+      left: 37%;
+      width: 2px;
+      background: #8B0000;
+    }
+
+    .timeline-tag {
+      position: absolute;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #000;
+    }
+
+    .timeline-tag.past {
+      left: calc(37% - 0.5rem);
+      bottom: 2rem;
+      transform: translateX(-100%);
+    }
+
+    .timeline-tag.future {
+      left: calc(37% + 0.5rem);
+      top: 1.2rem;
+    }
+
+    .timeline-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 12;
+      opacity: 0;
+      transform: translate3d(0, calc(50% - 9px), 0);
+      transition:
+        transform 0.28s ease,
+        width 0.28s ease,
+        height 0.28s ease,
+        border-radius 0.32s ease,
+        opacity 0.2s ease,
+        background 0.45s ease,
+        border 0.45s ease,
+        box-shadow 0.45s ease;
+      display: flex;
+      align-items: stretch;
+      justify-content: stretch;
+      overflow: hidden;
+      isolation: isolate;
+      border: 1px solid rgba(255, 255, 255, 0.65);
+      box-shadow:
+        0 10px 24px rgba(0, 0, 0, 0.2),
+        0 4px 8px rgba(0, 0, 0, 0.18);
+      background: rgba(255, 255, 255, 0.05);
+      --overlay-base-blur: 1px;
+      --overlay-locked-blur: 5px;
+    }
+
+    .timeline-overlay .overlay-glass {
+      position: absolute;
+      inset: 0;
+      backdrop-filter: blur(var(--overlay-base-blur));
+      filter: url(#glass-distortion);
+      pointer-events: none;
+      z-index: 1;
+      transition: backdrop-filter 0.45s ease;
+    }
+
+    .timeline-overlay .overlay-tint {
+      position: absolute;
+      inset: 0;
+      background: rgba(255, 255, 255, 0.08);
+      pointer-events: none;
+      z-index: 2;
+      transition: background 0.45s ease;
+    }
+
+    .timeline-overlay .overlay-shine {
+      position: absolute;
+      inset: 0;
+      box-shadow:
+        inset 2px 2px 1px rgba(255, 255, 255, 0.65),
+        inset -1px -1px 1px rgba(255, 255, 255, 0.4),
+        inset 0 0 0 0.5px rgba(255, 255, 255, 0.55);
+      pointer-events: none;
+      z-index: 3;
+      transition: box-shadow 0.45s ease;
+    }
+
+    .timeline-overlay.prelock {
+      border-width: 1.4px;
+      background: rgba(255, 255, 255, 0.2);
+      box-shadow:
+        0 12px 22px rgba(0, 0, 0, 0.24),
+        0 5px 12px rgba(0, 0, 0, 0.18);
+    }
+
+    .timeline-overlay.prelock .overlay-tint {
+      background: rgba(255, 255, 255, 0.32);
+    }
+
+    .timeline-overlay.prelock .overlay-shine {
+      box-shadow:
+        inset 3px 3px 2px rgba(255, 255, 255, 0.66),
+        inset -2px -2px 2px rgba(255, 255, 255, 0.5),
+        inset 0 0 0 0.9px rgba(255, 255, 255, 0.58);
+    }
+
+    .timeline-overlay.locked {
+      border-width: 1.6px;
+      background: rgba(255, 255, 255, 0.58);
+      box-shadow:
+        0 18px 30px rgba(0, 0, 0, 0.32),
+        0 8px 16px rgba(0, 0, 0, 0.26);
+    }
+
+    .timeline-overlay.locked .overlay-glass {
+      backdrop-filter: blur(var(--overlay-locked-blur));
+    }
+
+    .timeline-overlay.locked .overlay-tint {
+      background: rgba(255, 255, 255, 0.72);
+    }
+
+    .timeline-overlay.locked .overlay-shine {
+      box-shadow:
+        inset 6px 6px 3px rgba(255, 255, 255, 0.78),
+        inset -3px -3px 3px rgba(255, 255, 255, 0.62),
+        inset 0 0 0 1.2px rgba(255, 255, 255, 0.7);
+    }
+
+    .timeline-overlay .overlay-content {
+      position: relative;
+      z-index: 4;
+      flex: 1;
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-start;
+      padding: 0;
+      text-align: left;
+      font-size: 0.85rem;
+      font-weight: 600;
+      line-height: 1.35;
+      color: rgba(20, 20, 20, 0.86);
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      letter-spacing: 0.01em;
+      white-space: pre-wrap;
+      width: auto;
+      max-width: 100%;
+      box-sizing: border-box;
+      word-break: break-word;
+    }
+
+    .timeline-overlay .overlay-text {
+      display: block;
+      width: 100%;
+    }
+
+    .timeline-overlay.locked .overlay-content {
+      opacity: 1;
+      padding: 14px 16px;
+    }
+
+    .overlay-measure {
+      position: absolute;
+      top: -9999px;
+      left: -9999px;
+      visibility: hidden;
+      pointer-events: none;
+      display: inline-block;
+      white-space: pre-wrap;
+      box-sizing: border-box;
+      font-size: 0.85rem;
+      font-weight: 600;
+      line-height: 1.35;
+      letter-spacing: 0.01em;
+      max-width: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding-top: calc(var(--top-nav-height) + clamp(0.85rem, 4vw, 1.4rem));
+      }
+
+      .projects-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .top-nav__inner {
+        flex-direction: column;
+        gap: clamp(0.8rem, 3vw, 1.4rem);
+      }
+
+      .top-nav__brand {
+        text-align: center;
+      }
+
+      .top-nav__list {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: clamp(0.75rem, 3vw, 1.4rem);
+      }
+
+      .top-nav__link,
+      .top-nav__apply {
+        width: min(100%, 320px);
+        min-width: 0;
+      }
+
+      .timeline-section {
+        padding: 9rem 0 2rem 0;
+      }
+
+      .timeline {
+        padding: 2rem 1rem;
+      }
+
+      .timeline-items {
+        flex-direction: column;
+        gap: 3rem;
+        padding: 0;
+      }
+
+      .timeline-line {
+        top: 0;
+        bottom: 0;
+        left: 50%;
+        right: auto;
+        width: 2px;
+        height: 100%;
+        transform: translateX(-50%);
+      }
+
+      .timeline-event {
+        flex-direction: row !important;
+        text-align: left;
+      }
+
+      .timeline-event::before {
+        margin: 0 1rem 0 0 !important;
+      }
+
+      .timeline-divider,
+      .timeline-tag {
+        display: none;
+      }
+
+      .timeline-title {
+        max-width: 100%;
+      }
+
+      .timeline-overlay {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="top-nav">
+    <div class="top-nav__inner">
+      <a class="top-nav__brand" href="index.html">CuPi</a>
+      <nav aria-label="Primary navigation">
+        <ul class="top-nav__list">
+          <li>
+            <a class="top-nav__link" href="index.html">Home</a>
+          </li>
+          <li>
+            <a class="top-nav__link" href="projects.html" aria-current="page">Work</a>
+          </li>
+          <li>
+            <a class="top-nav__link" href="about.html">About</a>
+          </li>
+        </ul>
+      </nav>
+      <a class="top-nav__apply" href="https://forms.gle/NUHEUKpAo13qafat7" target="_blank" rel="noopener">Apply</a>
+    </div>
+  </header>
+
+  <section class="projects-section">
+    <h1 class="section-title">Current Projects</h1>
+  </section>
+
+  <div class="hero-image">
+    <img src="SiteImages/hamzaworking.png" alt="Team member working on electronics">
+  </div>
+
+  <section class="projects-section">
+    <div class="projects-grid">
+      <article class="project-card">
+        <img src="GeneralDrone.png" alt="General UAV" class="project-image">
+        <div class="project-content">
+          <h2 class="project-title">General UAV</h2>
+          <p class="project-description">
+            A versatile aerial platform designed for multiple applications including reconnaissance, 
+            payload delivery, and autonomous navigation. Features advanced flight control systems 
+            and modular design for adaptability across mission profiles.
+          </p>
+        </div>
+      </article>
+
+      <article class="project-card">
+        <img src="MiniDrone.png" alt="Micro UAV" class="project-image">
+        <div class="project-content">
+          <h2 class="project-title">Micro UAV</h2>
+          <p class="project-description">
+            A compact, agile aerial vehicle optimized for indoor navigation and tight-space operations. 
+            Lightweight construction and protected props allow for flight in cramped indoor environments 
+            and crowded natural environments. 3D lidar sensor allows rapid navigation and obstacle avoidance.
+          </p>
+        </div>
+      </article>
+
+      <article class="project-card">
+        <img src="JetCompressor.png" alt="Jet Engine" class="project-image">
+        <div class="project-content">
+          <h2 class="project-title">Jet Engine</h2>
+          <p class="project-description">
+            High performance in house designed jet propulsion system prototype designed for efficient and 
+            compact performance on a small scale UAV platform. Fully custom fuel injection system designed 
+            for future integration with novel oxidizer injection system.
+          </p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="timeline-section" id="timelineSection">
+    <h2 class="timeline-section-title">Project Timeline <span class="timeline-hint">(hover to interact)</span></h2>
+    <div class="timeline">
+      <div class="timeline-line"></div>
+      <div class="timeline-overlay">
+        <div class="overlay-glass"></div>
+        <div class="overlay-tint"></div>
+        <div class="overlay-shine"></div>
+        <div class="overlay-content">
+          <span class="overlay-text"></span>
+        </div>
+      </div>
+      <div class="timeline-divider"></div>
+      <span class="timeline-tag past">Past</span>
+      <span class="timeline-tag future">Future</span>
+      <ul class="timeline-items">
+        <li class="timeline-event" data-description="Cornell Physical Intelligence (CuPI)&#10;Recognized by Campus Activities under Policy 4.10 and ready to operate as a registered student organization.&#10;Launch focus: align research operations across mechanical, electrical, and AI disciplines.&#10;Founding cohort establishes shared lab safety, recruitment, and sponsor outreach playbooks." style="margin-right: 3rem;">
+          <span class="timeline-date">Aug 2025</span>
+          <h3 class="timeline-title">Club Founded</h3>
+        </li>
+        <li class="timeline-event" data-description="Research Quad ISR Drone v1&#10;Built around an off-the-shelf electronics stack to validate flight controls and payload architecture.&#10;Maps mission needs for physical intelligence within a compact reconnaissance airframe.&#10;Integration sprint includes flight-ready communications, foldable wings, and modular payload trays." style="margin-right: 7rem;">
+          <span class="timeline-date">Sep 2025</span>
+          <h3 class="timeline-title">"Research Quad" Prototype</h3>
+        </li>
+        <li class="timeline-event" data-description="Research Quad Refinement Cycle&#10;Iterating on aerodynamics, autonomy, and ISR sensor integration.&#10;Transitioning from off-the-shelf electronics toward a CuPI-developed avionics stack.&#10;Emphasis on redundant sensing, rapid field servicing, and intelligent path planning under wind gusts.">
+          <span class="timeline-date">Nov 2025</span>
+          <h3 class="timeline-title">Research Quad Refinement</h3>
+        </li>
+        <li class="timeline-event" data-description="Ground AI Crawler&#10;Applies embodied and morphological intelligence to legged mobility.&#10;Evaluating compliant structures and future capstan-drive actuation for field-ready autonomy.&#10;Terrain curriculum trains perception models on gravel, grass, and debris-laden surfaces.">
+          <span class="timeline-date">Nov 2025</span>
+          <h3 class="timeline-title">Ground AI Crawler</h3>
+        </li>
+        <li class="timeline-event" data-description="Aerobatic Control Model&#10;Model-based control and simulation campaign for agile, in-house aerial platforms.&#10;Connects mechanical design with adaptive AI policies for resilient flight.&#10;Data products benchmark inverted flight, coordinated turns, and aggressive climb-outs for future vehicles.">
+          <span class="timeline-date">Dec 2025</span>
+          <h3 class="timeline-title">Aerobatic Control Model</h3>
+        </li>
+        <li class="timeline-event" data-description="Biomechanical AI Foundation Model&#10;Roadmap for CuPI&apos;s long-term goal: intelligent robot arm, autonomous flying craft, and driven vehicle.&#10;Explores capstan-drive concepts and cross-domain AI models for adaptive, hardware-aware intelligence.&#10;Translates mission narratives into unified datasets that pair actuation limits with learned behaviors.">
+          <span class="timeline-date">Jan 2026</span>
+          <h3 class="timeline-title">Biomechanical AI Foundation Model</h3>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <svg style="display: none">
+    <filter
+      id="glass-distortion"
+      x="0%"
+      y="0%"
+      width="100%"
+      height="100%"
+      filterUnits="objectBoundingBox"
+    >
+      <feTurbulence
+        type="fractalNoise"
+        baseFrequency="0.01 0.01"
+        numOctaves="1"
+        seed="5"
+        result="turbulence"
+      />
+      <feComponentTransfer in="turbulence" result="mapped">
+        <feFuncR type="gamma" amplitude="1" exponent="10" offset="0.5" />
+        <feFuncG type="gamma" amplitude="0" exponent="1" offset="0" />
+        <feFuncB type="gamma" amplitude="0" exponent="1" offset="0.5" />
+      </feComponentTransfer>
+      <feGaussianBlur in="turbulence" stdDeviation="4" result="softMap" />
+      <feSpecularLighting
+        in="softMap"
+        surfaceScale="5"
+        specularConstant="1"
+        specularExponent="100"
+        lighting-color="white"
+        result="specLight"
+      >
+        <fePointLight x="-200" y="-200" z="300" />
+      </feSpecularLighting>
+      <feComposite
+        in="specLight"
+        operator="arithmetic"
+        k1="0"
+        k2="1"
+        k3="1"
+        k4="0"
+        result="litImage"
+      />
+      <feDisplacementMap
+        in="SourceGraphic"
+        in2="softMap"
+        scale="15"
+        xChannelSelector="R"
+        yChannelSelector="G"
+      />
+    </filter>
+  </svg>
+
+  <footer>
+    <div>This organization is a registered student organization of Cornell University.</div>
+    <div>Equal Education and Employment: <a href="https://hr.cornell.edu/about/workplace-rights/equal-education-and-employment">https://hr.cornell.edu/about/workplace-rights/equal-education-and-employment</a></div>
+    <div>For Questions &amp; Sponsorship Inquiries:</div>
+    <div>Contact <a href="mailto:cuphysicalintelligence@cornell.org">cuphysicalintelligence@cornell.org</a></div>
+  </footer>
+
+  <svg style="display: none">
+    <filter id="glass-distortion" x="0%" y="0%" width="100%" height="100%" filterUnits="objectBoundingBox">
+      <feTurbulence type="fractalNoise" baseFrequency="0.01 0.01" numOctaves="1" seed="5" result="turbulence" />
+      <feComponentTransfer in="turbulence" result="mapped">
+        <feFuncR type="gamma" amplitude="1" exponent="10" offset="0.5" />
+        <feFuncG type="gamma" amplitude="0" exponent="1" offset="0" />
+        <feFuncB type="gamma" amplitude="0" exponent="1" offset="0.5" />
+      </feComponentTransfer>
+      <feGaussianBlur in="turbulence" stdDeviation="4" result="softMap" />
+      <feSpecularLighting in="softMap" surfaceScale="5" specularConstant="1" specularExponent="100" lighting-color="white" result="specLight">
+        <fePointLight x="-200" y="-200" z="300" />
+      </feSpecularLighting>
+      <feComposite in="specLight" operator="arithmetic" k1="0" k2="1" k3="1" k4="0" result="litImage" />
+      <feDisplacementMap in="SourceGraphic" in2="softMap" scale="15" xChannelSelector="R" yChannelSelector="G" />
+    </filter>
+  </svg>
+
+  <script>
+    const timeline = document.querySelector('.timeline');
+    const timelineOverlay = document.querySelector('.timeline-overlay');
+    const timelineEvents = document.querySelectorAll('.timeline-event');
+    const overlayText = document.querySelector('.overlay-text');
+    const overlayContent = timelineOverlay ? timelineOverlay.querySelector('.overlay-content') : null;
+    const body = document.body;
+
+    const overlayConfig = Object.freeze({
+      baseSize: 60,
+      minWidth: 200,
+      maxWidth: 200,
+      textExtraWidth: 32,
+      titleExtraWidth: 32,
+      verticalPadding: 90,
+      heightExtra: 100,
+      baseBlur: 1.0,
+      lockedBlur: 5.0,
+      travelDelay: 180,
+      expandDelay: 200,
+      frostDelay: 350,
+      contentPaddingX: 14,
+      contentPaddingY: 12,
+      contentHeightExtra: 10,
+    });
+
+    const overlayDefaults = {
+      get width() {
+        return overlayConfig.baseSize;
+      },
+      get height() {
+        return overlayConfig.baseSize;
+      },
+      get radius() {
+        return '50%';
+      },
+    };
+
+    let overlayMeasure = null;
+
+    function ensureOverlayMeasure() {
+      if (overlayMeasure) {
+        return overlayMeasure;
+      }
+
+      if (!body) {
+        return null;
+      }
+
+      overlayMeasure = document.createElement('div');
+      overlayMeasure.className = 'overlay-measure';
+      overlayMeasure.setAttribute('aria-hidden', 'true');
+      body.appendChild(overlayMeasure);
+      return overlayMeasure;
+    }
+
+    function measureOverlayCopy(text) {
+      const measurer = ensureOverlayMeasure();
+      if (!measurer) {
+        return { width: 0, height: 0 };
+      }
+
+      const reference = overlayContent || measurer;
+      const computed = window.getComputedStyle(reference);
+      measurer.style.fontFamily = computed.fontFamily;
+      measurer.style.fontSize = computed.fontSize;
+      measurer.style.fontWeight = computed.fontWeight;
+      measurer.style.lineHeight = computed.lineHeight;
+      measurer.style.letterSpacing = computed.letterSpacing;
+      const innerWidth = Math.max(
+        0,
+        overlayConfig.maxWidth - overlayConfig.contentPaddingX * 2
+      );
+      measurer.style.width = `${innerWidth}px`;
+      measurer.style.maxWidth = `${innerWidth}px`;
+
+      measurer.textContent = text || '';
+      const rect = measurer.getBoundingClientRect();
+      return {
+        width: rect.width,
+        height: rect.height,
+      };
+    }
+
+    let overlayAnimationFrame = null;
+    let pendingOverlayState = null;
+    let currentOverlayState = null;
+    let currentLockedEvent = null;
+    let pendingLockedEvent = null;
+    let expandTimeoutId = null;
+    let travelTimeoutId = null;
+    let frostTimeoutId = null;
+
+    if (timelineOverlay) {
+      timelineOverlay.style.setProperty('--overlay-base-blur', `${overlayConfig.baseBlur}px`);
+      timelineOverlay.style.setProperty('--overlay-locked-blur', `${overlayConfig.lockedBlur}px`);
+    }
+
+    function statesAreEqual(a, b) {
+      if (!a || !b) {
+        return false;
+      }
+      const epsilon = 0.35;
+      return (
+        Math.abs(a.x - b.x) <= epsilon &&
+        Math.abs(a.y - b.y) <= epsilon &&
+        Math.abs(a.width - b.width) <= epsilon &&
+        Math.abs(a.height - b.height) <= epsilon &&
+        a.radius === b.radius &&
+        Math.abs(a.opacity - b.opacity) <= 0.01
+      );
+    }
+
+    function scheduleOverlayUpdate(state) {
+      if (statesAreEqual(currentOverlayState, state) && !pendingOverlayState) {
+        return;
+      }
+
+      if (pendingOverlayState && statesAreEqual(pendingOverlayState, state)) {
+        return;
+      }
+
+      pendingOverlayState = state;
+
+      if (overlayAnimationFrame) {
+        return;
+      }
+
+      overlayAnimationFrame = requestAnimationFrame(() => {
+        overlayAnimationFrame = null;
+        if (!timelineOverlay || !pendingOverlayState) {
+          return;
+        }
+
+        const nextState = pendingOverlayState;
+        pendingOverlayState = null;
+
+        if (statesAreEqual(currentOverlayState, nextState)) {
+          return;
+        }
+
+        const { x, y, width, height, radius, opacity } = nextState;
+        timelineOverlay.style.width = `${width}px`;
+        timelineOverlay.style.height = `${height}px`;
+        timelineOverlay.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+        timelineOverlay.style.borderRadius = radius;
+        timelineOverlay.style.opacity = opacity;
+        currentOverlayState = { x, y, width, height, radius, opacity };
+      });
+    }
+
+    function setOverlayState(state, text = '') {
+      if (!timelineOverlay) {
+        return;
+      }
+
+      if (state === 'clear') {
+        timelineOverlay.classList.remove('prelock', 'locked');
+        if (overlayText) {
+          overlayText.textContent = '';
+        }
+      } else if (state === 'prelock') {
+        timelineOverlay.classList.remove('locked');
+        timelineOverlay.classList.add('prelock');
+        if (overlayText) {
+          overlayText.textContent = text;
+        }
+      } else if (state === 'locked') {
+        timelineOverlay.classList.remove('prelock');
+        timelineOverlay.classList.add('locked');
+        if (overlayText) {
+          overlayText.textContent = text;
+        }
+      }
+    }
+
+    function beginOverlayLock(text) {
+      clearTimeout(frostTimeoutId);
+      setOverlayState('prelock', text);
+      frostTimeoutId = setTimeout(() => {
+        setOverlayState('locked', text);
+        frostTimeoutId = null;
+      }, overlayConfig.frostDelay);
+    }
+
+    function resetOverlayState() {
+      clearTimeout(frostTimeoutId);
+      frostTimeoutId = null;
+      setOverlayState('clear');
+    }
+
+    function expandToEvent(eventElement) {
+      if (!timeline || !timelineOverlay || !eventElement) {
+        return;
+      }
+
+      const rect = timeline.getBoundingClientRect();
+      const centerY = rect.height / 2;
+      const eventRect = eventElement.getBoundingClientRect();
+      const eventCenterX = eventRect.left - rect.left + eventRect.width / 2;
+      const titleEl = eventElement.querySelector('.timeline-title');
+      const titleRect = titleEl ? titleEl.getBoundingClientRect() : null;
+      const overlayCopy =
+        eventElement.dataset.description ||
+        eventElement.dataset.placeholder ||
+        (titleEl ? titleEl.textContent.trim() : 'Timeline event');
+
+      const { height: measuredHeight } = measureOverlayCopy(overlayCopy);
+
+      const lockedWidth = overlayConfig.maxWidth;
+
+      let verticalAllowance = overlayConfig.verticalPadding;
+
+      if (titleRect) {
+        const titleRelativeTop = titleRect.top - rect.top;
+        const titleRelativeHeight = titleRect.height;
+        const titleCenterRelativeY = titleRelativeTop + titleRelativeHeight / 2;
+        const distanceToCenter = Math.abs(titleCenterRelativeY - centerY);
+        verticalAllowance = Math.max(
+          verticalAllowance,
+          distanceToCenter * 2 + titleRelativeHeight + overlayConfig.verticalPadding
+        );
+      }
+
+      const contentHeight = measuredHeight > 0
+        ? measuredHeight + overlayConfig.contentPaddingY * 2 + overlayConfig.contentHeightExtra
+        : overlayConfig.verticalPadding;
+
+      const lockedHeight = Math.max(
+        contentHeight,
+        verticalAllowance,
+        eventRect.height + overlayConfig.heightExtra
+      );
+
+      const translateX = eventCenterX - lockedWidth / 2;
+      const translateY = centerY - lockedHeight / 2;
+
+      const isCurrent = currentLockedEvent === eventElement;
+      const isLocked = timelineOverlay.classList.contains('locked');
+      const isPrelock = timelineOverlay.classList.contains('prelock');
+
+      if (!isCurrent || (!isLocked && !isPrelock)) {
+        beginOverlayLock(overlayCopy);
+      } else if (overlayText && overlayText.textContent !== overlayCopy) {
+        overlayText.textContent = overlayCopy;
+      }
+
+      scheduleOverlayUpdate({
+        x: translateX,
+        y: translateY,
+        width: lockedWidth,
+        height: lockedHeight,
+        radius: '28px',
+        opacity: 1,
+      });
+
+      currentLockedEvent = eventElement;
+      pendingLockedEvent = null;
+      expandTimeoutId = null;
+    }
+
+    function shrinkThenExpand(eventElement) {
+      if (!timeline || !timelineOverlay || !eventElement) {
+        return;
+      }
+
+      clearTimeout(expandTimeoutId);
+      clearTimeout(travelTimeoutId);
+
+      const rect = timeline.getBoundingClientRect();
+      const baseSize = overlayConfig.baseSize;
+      const eventRect = eventElement.getBoundingClientRect();
+      const eventCenterX = eventRect.left - rect.left + eventRect.width / 2;
+      const defaultCenterY = rect.height / 2;
+      const collapseCenterX = currentOverlayState
+        ? currentOverlayState.x + currentOverlayState.width / 2
+        : eventCenterX;
+      const collapseCenterY = currentOverlayState
+        ? currentOverlayState.y + currentOverlayState.height / 2
+        : defaultCenterY;
+
+      resetOverlayState();
+      currentLockedEvent = null;
+      pendingLockedEvent = eventElement;
+
+      scheduleOverlayUpdate({
+        x: collapseCenterX - baseSize / 2,
+        y: collapseCenterY - baseSize / 2,
+        width: baseSize,
+        height: baseSize,
+        radius: overlayDefaults.radius,
+        opacity: 1,
+      });
+
+      travelTimeoutId = setTimeout(() => {
+        scheduleOverlayUpdate({
+          x: eventCenterX - baseSize / 2,
+          y: defaultCenterY - baseSize / 2,
+          width: baseSize,
+          height: baseSize,
+          radius: overlayDefaults.radius,
+          opacity: 1,
+        });
+        travelTimeoutId = null;
+      }, overlayConfig.travelDelay);
+
+      expandTimeoutId = setTimeout(() => {
+        expandToEvent(eventElement);
+      }, overlayConfig.travelDelay + overlayConfig.expandDelay);
+    }
+
+    function handleTimelinePointer(e) {
+      if (!timeline || !timelineOverlay) {
+        return;
+      }
+
+      const rect = timeline.getBoundingClientRect();
+      const pointerXRaw = e.clientX - rect.left;
+      const pointerY = e.clientY;
+      const activationBand = rect.height / 2 + 140;
+      const timelineCenterScreenY = rect.top + rect.height / 2;
+
+      if (
+        pointerY < timelineCenterScreenY - activationBand ||
+        pointerY > timelineCenterScreenY + activationBand
+      ) {
+        hideTimelineOverlay();
+        return;
+      }
+
+      const clampedX = Math.max(0, Math.min(rect.width, pointerXRaw));
+      const centerY = rect.height / 2;
+
+      let closestEvent = null;
+
+      timelineEvents.forEach((event) => {
+        const eventRect = event.getBoundingClientRect();
+        const eventCenterX = eventRect.left - rect.left + eventRect.width / 2;
+        const distance = Math.abs(clampedX - eventCenterX);
+
+        if (!closestEvent || distance < closestEvent.distance) {
+          closestEvent = {
+            event,
+            distance,
+            centerX: eventCenterX,
+            eventRect,
+          };
+        }
+      });
+
+      if (!closestEvent) {
+        hideTimelineOverlay();
+        return;
+      }
+
+      const magnetRadius = Math.max(
+        overlayConfig.baseSize * 5,
+        closestEvent.eventRect.width / 2 + overlayConfig.textExtraWidth
+      );
+
+      if (closestEvent.distance > magnetRadius) {
+        resetOverlayState();
+        currentLockedEvent = null;
+        pendingLockedEvent = null;
+        clearTimeout(expandTimeoutId);
+        const translateX = clampedX - overlayDefaults.width / 2;
+        const translateY = centerY - overlayDefaults.height / 2;
+
+        scheduleOverlayUpdate({
+          x: translateX,
+          y: translateY,
+          width: overlayDefaults.width,
+          height: overlayDefaults.height,
+          radius: overlayDefaults.radius,
+          opacity: 1,
+        });
+        return;
+      }
+
+      if (currentLockedEvent === closestEvent.event) {
+        if (timelineOverlay && timelineOverlay.classList.contains('locked')) {
+          return;
+        }
+        expandToEvent(closestEvent.event);
+        return;
+      }
+
+      if (pendingLockedEvent === closestEvent.event) {
+        return;
+      }
+
+      shrinkThenExpand(closestEvent.event);
+    }
+
+    function hideTimelineOverlay() {
+      if (!timelineOverlay) {
+        return;
+      }
+
+      resetOverlayState();
+      currentLockedEvent = null;
+      pendingLockedEvent = null;
+      clearTimeout(expandTimeoutId);
+      clearTimeout(travelTimeoutId);
+      expandTimeoutId = null;
+      travelTimeoutId = null;
+
+      const timelineRect = timeline ? timeline.getBoundingClientRect() : null;
+      const fallbackX = timelineRect ? timelineRect.width / 2 - overlayDefaults.width / 2 : 0;
+      const fallbackY = timelineRect ? timelineRect.height / 2 - overlayDefaults.height / 2 : 0;
+
+      const lastState = currentOverlayState || {
+        x: fallbackX,
+        y: fallbackY,
+        width: overlayDefaults.width,
+        height: overlayDefaults.height,
+      };
+
+      const shrinkWidth = overlayDefaults.width;
+      const shrinkHeight = overlayDefaults.height;
+
+      const shrinkX = lastState.x + (lastState.width - shrinkWidth) / 2;
+      const shrinkY = lastState.y + (lastState.height - shrinkHeight) / 2;
+
+      scheduleOverlayUpdate({
+        x: shrinkX,
+        y: shrinkY,
+        width: shrinkWidth,
+        height: shrinkHeight,
+        radius: overlayDefaults.radius,
+        opacity: 0,
+      });
+    }
+
+    if (timeline && timelineOverlay) {
+      document.addEventListener('mousemove', handleTimelinePointer);
+      timeline.addEventListener('mouseleave', hideTimelineOverlay);
+      window.addEventListener('resize', hideTimelineOverlay);
+      window.addEventListener('scroll', hideTimelineOverlay, { passive: true });
+      hideTimelineOverlay();
+    }
+  </script>
+</body>
+</html>

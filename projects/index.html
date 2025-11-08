@@ -627,12 +627,13 @@
       }
 
       .top-nav__inner {
-        flex-wrap: wrap;
-        align-items: stretch;
+        flex-wrap: nowrap;
+        align-items: center;
         justify-content: space-between;
-        gap: clamp(0.3rem, 1.2vw, 0.55rem);
+        gap: clamp(0.25rem, 1vw, 0.45rem);
         overflow: visible;
-        padding-block: clamp(0.4rem, 1.6vw, 0.7rem);
+        height: var(--nav-height);
+        padding: 0 clamp(0.6rem, 3vw, 1rem);
       }
 
       .top-nav__brand {
@@ -640,12 +641,12 @@
       }
 
       .top-nav__inner > nav {
-        flex: 1 1 100%;
+        flex: 1 1 auto;
         min-width: 0;
         order: 1;
         display: flex;
         align-items: center;
-        justify-content: center;
+        justify-content: space-between;
       }
 
       .top-nav__list {
@@ -666,9 +667,9 @@
         flex: 1 1 auto;
         width: 100%;
         min-width: 0;
-        padding: clamp(0.45rem, 1.2vw, 0.62rem) clamp(0.5rem, 1.6vw, 0.78rem);
-        font-size: clamp(0.5rem, 1.05vw, 0.66rem);
-        border-radius: clamp(0.42rem, 1vw, 0.58rem);
+        padding: clamp(0.42rem, 1vw, 0.58rem) clamp(0.45rem, 1.4vw, 0.68rem);
+        font-size: clamp(0.48rem, 1vw, 0.64rem);
+        border-radius: clamp(0.38rem, 0.9vw, 0.52rem);
       }
 
       .timeline-section {

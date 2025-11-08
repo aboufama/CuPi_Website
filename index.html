@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cornell University Physical Intelligence</title>
+  <link rel="icon" type="image/png" href="SiteImages/Favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Questrial&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Questrial&display=swap" rel="stylesheet"></noscript>
+  <link rel="preload" href="SiteImages/Title.png" as="image">
+  <link rel="preload" href="Title/TitleAnimation.mp4" as="video" type="video/mp4">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      overscroll-behavior: none;
+      overscroll-behavior-y: none;
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+
+    :root {
+      --top-nav-height: clamp(2.6rem, 4vw, 3.2rem);
+      --nav-link-min-width: clamp(100px, 12vw, 140px);
+      --nav-link-padding-block: clamp(0.36rem, 1.2vw, 0.52rem);
+      --nav-link-padding-inline: clamp(0.95rem, 2.8vw, 1.6rem);
+      --nav-apply-min-width: clamp(124px, 15vw, 168px);
+    }
+
+    /* OTHER STYLES */
+
+    body {
+      font-family: 'Questrial', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: white;
+      color: #000;
+      overflow-x: hidden;
+      overscroll-behavior: none;
+      overscroll-behavior-y: none;
+      min-height: 100vh;
+      font-weight: 400;
+      scrollbar-width: none;
+    }
+
+    body::-webkit-scrollbar,
+    html::-webkit-scrollbar {
+      display: none;
+      width: 0;
+      height: 0;
+    }
+
+    body.hide-cursor {
+      cursor: none;
+    }
+
+    body.hide-cursor * {
+      cursor: none !important;
+    }
+
+    /*
+    GREEN BACKGROUND
+    https://media.istockphoto.com/id/1430511443/vector/christmas-mistletoe-foliage-and-berries-vector-seamless-pattern.jpg?s=612x612&w=0&k=20&c=oqxlH7ytgd5yjBQroACirJ1gH7Au1tq8gmsdeGd-Crk=
+
+    ORANGE BACKGROUND
+    https://images.fineartamerica.com/images/artworkimages/mediumlarge/3/beautiful-orange-and-pastel-flowers-seamless-pattern-julien.jpg
+
+    MARGARITAS BACKGROUND
+    https://static.vecteezy.com/system/resources/previews/056/652/082/non_2x/hand-drawn-white-flower-seamless-pattern-floral-repeating-wallpaper-for-textile-design-fabric-print-wrapping-paper-cute-daisy-flowers-on-blue-background-repeated-ditsy-texture-vector.jpg
+
+    SPRING FLOWERS BACKGROUND
+    https://img.freepik.com/free-vector/flat-floral-spring-pattern-design_23-2150117078.jpg
+
+    VECTOR WINDS BACKGROUND
+    https://i.ibb.co/MDbLn4N4/vectors.png
+
+    RED FLOWERS BACKGROUND
+    https://www.publicdomainpictures.net/pictures/610000/velka/seamless-floral-wallpaper-art-1715193626Gct.jpg
+    */
+
+    /* TOP NAVIGATION STYLES */
+
+    .top-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 10000;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(4px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+      box-shadow: 
+        inset 0 1px 1px rgba(255, 255, 255, 0.5),
+        0 8px 20px rgba(15, 15, 15, 0.08);
+      cursor: default;
+    }
+
+    .top-nav__inner {
+      max-width: min(1180px, 92vw);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: var(--top-nav-height);
+      padding: clamp(0.35rem, 1.3vw, 0.65rem) clamp(1.3rem, 3.6vw, 2.6rem);
+    }
+
+    .top-nav__brand {
+      font-family: 'Questrial', sans-serif;
+      font-size: clamp(1.05rem, 2vw, 1.35rem);
+      font-weight: 700;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: #101a28;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .top-nav__list {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: clamp(0.85rem, 2.4vw, 1.8rem);
+      padding: 0;
+      margin: 0;
+    }
+
+    .top-nav__link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: var(--nav-link-min-width);
+      padding: var(--nav-link-padding-block) var(--nav-link-padding-inline);
+      border-radius: clamp(0.6rem, 1.5vw, 0.9rem);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 600;
+      font-size: clamp(0.64rem, 1.25vw, 0.82rem);
+      color: #132031;
+      background: rgba(255, 255, 255, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.45);
+      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.6), 0 4px 12px rgba(15, 15, 15, 0.08);
+      text-decoration: none;
+      backdrop-filter: blur(8px);
+      transition: all 0.2s ease;
+    }
+
+    .top-nav__link:hover {
+      background: rgba(255, 255, 255, 0.35);
+      border-color: rgba(255, 255, 255, 0.6);
+      box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.7), 0 6px 16px rgba(15, 15, 15, 0.12);
+    }
+
+    .top-nav__link[aria-current="page"] {
+      background: rgba(255, 255, 255, 0.5);
+      border-color: rgba(255, 255, 255, 0.75);
+      box-shadow: inset 0 1.5px 2px rgba(255, 255, 255, 0.75), 0 8px 20px rgba(15, 15, 15, 0.15);
+    }
+
+    .top-nav__apply {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: var(--nav-apply-min-width);
+      padding: var(--nav-link-padding-block) clamp(1.35rem, 3vw, 1.95rem);
+      border-radius: clamp(0.7rem, 1.6vw, 1rem);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-weight: 700;
+      font-size: clamp(0.66rem, 1.3vw, 0.88rem);
+      color: #0b223c;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.6) 0%, rgba(224, 236, 255, 0.5) 45%, rgba(205, 227, 255, 0.45) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      box-shadow: inset 0 1.5px 2px rgba(255, 255, 255, 0.8), 0 6px 18px rgba(11, 34, 60, 0.15);
+      text-decoration: none;
+      white-space: nowrap;
+      backdrop-filter: blur(8px);
+      transition: all 0.2s ease;
+    }
+
+    .top-nav__apply:hover {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.75) 0%, rgba(224, 236, 255, 0.65) 45%, rgba(205, 227, 255, 0.6) 100%);
+      box-shadow: inset 0 2px 3px rgba(255, 255, 255, 0.85), 0 8px 24px rgba(11, 34, 60, 0.2);
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    .hero-section {
+      width: 100%;
+      min-height: 100vh;
+      height: 110vh;
+      background-color: #f3f3f3;
+      background-attachment: scroll;
+      position: relative;
+      overflow: hidden;
+      contain: layout style paint;
+    }
+
+    .hero-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .hero-title {
+      font-size: 80px;
+      font-family: 'Questrial', sans-serif;
+      font-weight: 600;
+      color: #000;
+      letter-spacing: 0.02em;
+      margin: 0;
+      padding: clamp(0.42rem, 1.1vw, 0.64rem) clamp(0.82rem, 2.4vw, 1.32rem);
+      position: absolute;
+      top: 58%;
+      left: 30%;
+      transform: translate(-50%, -50%) scale(1.2);
+      transform-origin: top center;
+      z-index: 10;
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.82) 0%, rgba(255, 255, 255, 0.6) 50%, rgba(255, 255, 255, 0.4) 100%);
+      backdrop-filter: blur(2.5px);
+      -webkit-backdrop-filter: blur(2.5px);
+      border-radius: clamp(0.48rem, 1.1vw, 0.6rem);
+      border: 1.4px solid rgba(255, 255, 255, 0.78);
+      box-shadow: inset 0 1px 1.2px rgba(255, 255, 255, 0.65), 0 14px 26px rgba(12, 26, 46, 0.18);
+      display: inline-block;
+      width: fit-content;
+    }
+
+    .hero-title-text {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: clamp(0.06rem, 0.28vw, 0.18rem);
+      position: relative;
+      width: fit-content;
+    }
+
+    .hero-acronym {
+      display: block;
+      font-size: clamp(3.5rem, 16.25vw, 9rem);
+      font-weight: 700;
+      letter-spacing: clamp(0.08em, 0.5vw, 0.16em);
+      text-transform: uppercase;
+      color: #B31B1B;
+      white-space: nowrap;
+    }
+
+    .hero-acronym-expansion {
+      display: block;
+      margin-top: clamp(0.06rem, 0.24vw, 0.12rem);
+      font-size: clamp(0.975rem, 2.25vw, 1.375rem);
+      letter-spacing: 0.015em;
+      line-height: 1.2;
+      color: #2a394d;
+      width: fit-content;
+      white-space: nowrap;
+    }
+
+    .hero-acronym-expansion .red-letter {
+      font-weight: 800;
+    }
+
+    .hero-acronym-line {
+      display: inline;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 520px) {
+      .hero-acronym {
+        font-size: clamp(3rem, 21.25vw, 6.5rem);
+        letter-spacing: clamp(0.06em, 0.45vw, 0.12em);
+      }
+
+      .hero-acronym-expansion {
+        font-size: clamp(0.88rem, 3vw, 1.2rem);
+      }
+    }
+
+    .hero-title-text .red-letter {
+      color: #B31B1B;
+      font-weight: 900;
+    }
+
+    .overview-section {
+      width: 100%;
+      max-width: 1440px;
+      margin: clamp(10rem, 16vw, 14rem) auto clamp(3rem, 6vw, 4.5rem);
+      padding: 0 clamp(2rem, 6vw, 5rem);
+      position: relative;
+    }
+
+    .overview-interactive {
+      --overview-shell-inline: clamp(1.8rem, 4.8vw, 3.4rem);
+      --overview-shell-top: clamp(2.6rem, 6.4vw, 3.9rem);
+      --overview-shell-bottom: clamp(2.2rem, 5.8vw, 3.4rem);
+      position: relative;
+      width: 100%;
+      padding: var(--overview-shell-top) var(--overview-shell-inline) var(--overview-shell-bottom);
+      background: none;
+      border-radius: 0;
+      box-shadow: none;
+      overflow: hidden;
+    }
+
+    .overview-field-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      pointer-events: none;
+      z-index: 1;
+      border-radius: inherit;
+    }
+
+    .overview-grid {
+      display: grid;
+      grid-template-columns: minmax(420px, 1.15fr) minmax(320px, 0.85fr);
+      gap: clamp(1.35rem, 3vw, 2.5rem);
+      align-items: stretch;
+      position: relative;
+      z-index: 3;
+    }
+
+    .overview-panel {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: clamp(0.75rem, 2vw, 1.1rem);
+      padding: clamp(0.5rem, 2vw, 0.75rem);
+      min-height: 100%;
+      z-index: 1;
+    }
+
+    .overview-heading {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 0.85rem;
+    }
+
+    .overview-eyebrow {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: #B31B1B;
+      margin: 0;
+    }
+
+    .overview-panel h2 {
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      margin: 0;
+      color: #101a28;
+      line-height: 1.2;
+    }
+
+    .overview-panel--mission h2 {
+      color: #B31B1B;
+    }
+
+    .overview-panel p {
+      margin: 0;
+      color: #3b3b3b;
+      line-height: 1.75;
+      font-size: 1.05rem;
+    }
+
+    .overview-panel--mission p {
+      font-size: 1rem;
+      line-height: 1.65;
+    }
+
+    .overview-matrix {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.85rem;
+    }
+
+    .matrix-item {
+      padding: 0.85rem 0;
+      border-bottom: 1px solid rgba(16, 26, 40, 0.12);
+      background: transparent;
+      border-radius: 0;
+    }
+
+    .matrix-title {
+      display: block;
+      font-weight: 600;
+      color: #101a28;
+      margin-bottom: 0.2rem;
+      font-size: 1rem;
+    }
+
+    .matrix-item p {
+      font-size: 0.95rem;
+      color: #555;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 640px) {
+      .overview-matrix {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Former overview-tag styles removed with layout update */
+
+    .site-footer {
+      font-size: 0.65rem;
+      color: #555;
+      text-align: center;
+      padding: 3rem 1rem 2.5rem;
+      line-height: 1.4;
+    }
+
+    .site-footer a {
+      color: inherit;
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      .top-nav__inner {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: clamp(0.5rem, 2vw, 1rem);
+      }
+
+      .top-nav__brand {
+        flex: 0 0 auto;
+        text-align: left;
+      }
+
+      .top-nav__list {
+        flex: 1 1 auto;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: clamp(0.5rem, 2vw, 0.75rem);
+        margin: 0;
+        display: flex;
+      }
+
+      .top-nav__apply {
+        flex: 0 0 auto;
+        min-width: auto;
+        width: auto;
+        padding: var(--nav-link-padding-block) clamp(1rem, 2.5vw, 1.5rem);
+        font-size: clamp(0.6rem, 1.2vw, 0.75rem);
+        margin-left: 0;
+        display: inline-flex;
+      }
+
+      .top-nav__inner {
+        flex-wrap: wrap;
+      }
+
+      .top-nav__inner > nav {
+        display: flex;
+      }
+
+      .top-nav__link {
+        width: auto;
+        min-width: auto;
+        flex: 0 0 auto;
+        padding: var(--nav-link-padding-block) clamp(0.7rem, 2vw, 1rem);
+        font-size: clamp(0.6rem, 1.2vw, 0.75rem);
+      }
+
+      .hero-section {
+        background-size: cover;
+      }
+
+      .hero-title {
+        font-size: 75px !important;
+        left: clamp(1.5rem, 4vw, 2.5rem);
+        -webkit-text-size-adjust: 100% !important;
+        text-size-adjust: 100% !important;
+      }
+
+      .overview-section {
+        padding: 0 clamp(1rem, 6vw, 1.5rem);
+      }
+
+      .overview-panel {
+        padding: clamp(1rem, 4vw, 1.5rem);
+      }
+
+      .overview-matrix {
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      }
+
+    }
+
+    @media (max-width: 500px) {
+      .top-nav__inner {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+      }
+
+      .top-nav__brand {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 0.25rem;
+        order: -1;
+      }
+
+      .top-nav__inner > nav,
+      .top-nav__apply {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: clamp(0.5rem, 2vw, 0.75rem);
+        width: 100%;
+        margin: 0;
+      }
+
+      .top-nav__list {
+        flex: none;
+        justify-content: center;
+        margin: 0;
+        width: auto;
+      }
+
+      .top-nav__apply {
+        margin-left: 0;
+        display: inline-flex;
+        flex: 0 0 auto;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .overview-grid {
+        grid-template-columns: 1fr;
+      }
+      .hero-title {
+        left: 50%;
+        transform: translate(-50%, -50%) scale(1.05);
+        text-align: center;
+      }
+      .hero-title-text {
+        align-items: center;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero-video {
+        display: none;
+      }
+      .hero-section {
+        background: url('Title/TitleAnimation (1).png') center top/cover no-repeat;
+        background-color: #f3f3f3;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="top-nav">
+    <div class="top-nav__inner">
+      <a class="top-nav__brand" href="./">CUPI</a>
+      <nav aria-label="Primary navigation">
+        <ul class="top-nav__list">
+          <li>
+            <a class="top-nav__link" href="./" aria-current="page">Home</a>
+          </li>
+          <li>
+            <a class="top-nav__link" href="./projects/">Work</a>
+          </li>
+          <li>
+            <a class="top-nav__link" href="./about/">About</a>
+          </li>
+        </ul>
+      </nav>
+      <a class="top-nav__apply" href="https://forms.gle/NUHEUKpAo13qafat7" target="_blank" rel="noopener">Apply</a>
+    </div>
+  </header>
+
+  <div class="hero-section">
+    <video
+      class="hero-video"
+      preload="auto"
+      muted
+      playsinline
+      aria-hidden="true"
+    >
+      <source src="Title/TitleAnimation.mp4" type="video/mp4">
+    </video>
+    <h1 class="hero-title">
+      <span class="hero-title-text">
+        <span class="hero-acronym">CUPI</span>
+        <span class="hero-acronym-expansion">
+          <span class="hero-acronym-line"><span class="red-letter">C</span>ornell <span class="red-letter">U</span>niversity</span>
+          <span class="hero-acronym-line"><span class="red-letter">P</span>hysical <span class="red-letter">I</span>ntelligence</span>
+        </span>
+      </span>
+    </h1>
+  </div>
+
+  <section class="overview-section" aria-label="Cornell University Physical Intelligence overview">
+    <div class="overview-interactive">
+      <canvas class="overview-field-canvas" aria-hidden="true"></canvas>
+      <div class="overview-grid">
+        <article class="overview-panel overview-panel--mission">
+          <div class="overview-heading">
+            <p class="overview-eyebrow">Mission:</p>
+            <h2>Intentional design and integration</h2>
+          </div>
+          <p>
+            CUPI prototypes for embodied autonomy, platforms where structure, sensing, and control are co-designed. We iterate quickly on aerial and terrestrial robots, and we aim to design every system, mechanical, electrical, and software, from the ground up.
+          </p>
+          <p>
+            We have a small team project focused approach, where a group containing members from different subteams takes a project from design to manufacture to integration. This ownership-based management approach gives our engineers the control they need to complete projects efficiently.
+          </p>
+        </article>
+
+        <article class="overview-panel overview-panel--teams">
+          <p class="overview-eyebrow">Subteams</p>
+          <div class="overview-matrix">
+            <div class="matrix-item">
+              <span class="matrix-title">Mechanical</span>
+              <p>Airframes, aero surfaces, composites.</p>
+            </div>
+            <div class="matrix-item">
+              <span class="matrix-title">Electrical</span>
+              <p>Power systems, sensing, embedded electronics.</p>
+            </div>
+            <div class="matrix-item">
+              <span class="matrix-title">Autonomy</span>
+              <p>Perception, onboard planners, simulation.</p>
+            </div>
+            <div class="matrix-item">
+              <span class="matrix-title">Power</span>
+              <p>Robotic actuators, motors, engines, energy systems.</p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div>This organization is a registered student organization of Cornell University.</div>
+    <div>Equal Education and Employment: <a href="https://hr.cornell.edu/about/workplace-rights/equal-education-and-employment">https://hr.cornell.edu/about/workplace-rights/equal-education-and-employment</a></div>
+    <div>For Questions &amp; Sponsorship Inquiries:</div>
+    <div>Contact <a href="mailto:cuphysicalintelligence@cornell.org">cuphysicalintelligence@cornell.org</a></div>
+  </footer>
+
+  <script>
+    const HERO_SCROLL_SPEED = 2;
+    const HERO_MIN_SEEK_DELTA = 1 / 45; // seconds
+    const HERO_INTERSECTION_THRESHOLD = 0.05;
+    const overviewFieldConfig = {
+      spacing: 40,
+      baseAlpha: 0.03,
+      alphaBoost: 0.1,
+      speed: 0.14,
+      linePortion: 0.28,
+      thickness: 1.8,
+      lineColor: '#A8B8D6',
+    };
+    const heroSection = document.querySelector('.hero-section');
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let teardownHeroVideo;
+    let teardownOverviewField;
+
+    const initHeroVideo = () => {
+      if (!heroSection) {
+        return null;
+      }
+
+      const heroVideo = heroSection.querySelector('.hero-video');
+      if (!heroVideo) {
+        return null;
+      }
+
+      heroVideo.pause();
+      let heroHeight = heroSection.offsetHeight || window.innerHeight;
+      let latestKnownScrollY = window.scrollY;
+      let ticking = false;
+      let videoDuration = heroVideo.duration || 0;
+      let isVideoReady = videoDuration > 0;
+      let isHeroVisible = false;
+      let pendingSeekTime = null;
+      let seekFrameRequested = false;
+      let lastAppliedTime = 0;
+
+      const applyPendingSeek = () => {
+        seekFrameRequested = false;
+        if (
+          !isVideoReady ||
+          !isHeroVisible ||
+          pendingSeekTime == null ||
+          !videoDuration
+        ) {
+          return;
+        }
+        const delta = Math.abs(pendingSeekTime - lastAppliedTime);
+        if (delta < HERO_MIN_SEEK_DELTA) {
+          return;
+        }
+        lastAppliedTime = pendingSeekTime;
+        if (typeof heroVideo.fastSeek === 'function') {
+          heroVideo.fastSeek(pendingSeekTime).catch(() => {
+            heroVideo.currentTime = pendingSeekTime;
+          });
+        } else {
+          heroVideo.currentTime = pendingSeekTime;
+        }
+      };
+
+      const scheduleSeek = () => {
+        if (seekFrameRequested) {
+          return;
+        }
+        seekFrameRequested = true;
+        window.requestAnimationFrame(applyPendingSeek);
+      };
+
+      const updateVideoTime = () => {
+        ticking = false;
+        if (!isVideoReady || !isHeroVisible || !videoDuration) {
+          return;
+        }
+        const scrollProgress = Math.min(Math.max(latestKnownScrollY / heroHeight, 0), 1);
+        const acceleratedProgress = Math.min(scrollProgress * HERO_SCROLL_SPEED, 1);
+        pendingSeekTime = acceleratedProgress * videoDuration;
+        scheduleSeek();
+      };
+
+      const handleScroll = () => {
+        if (!isHeroVisible) {
+          return;
+        }
+        latestKnownScrollY = window.scrollY;
+        if (!ticking) {
+          window.requestAnimationFrame(updateVideoTime);
+          ticking = true;
+        }
+      };
+
+      const handleResize = () => {
+        heroHeight = heroSection.offsetHeight || window.innerHeight;
+        latestKnownScrollY = window.scrollY;
+        updateVideoTime();
+      };
+
+      const handleMetadata = () => {
+        videoDuration = heroVideo.duration || 0;
+        isVideoReady = videoDuration > 0 && Number.isFinite(videoDuration);
+        if (isVideoReady) {
+          pendingSeekTime = 0;
+          lastAppliedTime = 0;
+          updateVideoTime();
+        }
+      };
+
+      const intersectionObserver = new IntersectionObserver(
+        (entries) => {
+          isHeroVisible = entries.some((entry) => entry.isIntersecting);
+          if (isHeroVisible) {
+            latestKnownScrollY = window.scrollY;
+            updateVideoTime();
+          }
+        },
+        { threshold: HERO_INTERSECTION_THRESHOLD }
+      );
+
+      intersectionObserver.observe(heroSection);
+      window.addEventListener('scroll', handleScroll, { passive: true });
+      window.addEventListener('resize', handleResize);
+      let resizeObserverCleanup = () => {};
+      if (typeof ResizeObserver === 'function') {
+        const resizeObserver = new ResizeObserver(() => {
+          heroHeight = heroSection.offsetHeight || window.innerHeight;
+          updateVideoTime();
+        });
+        resizeObserver.observe(heroSection);
+        resizeObserverCleanup = () => resizeObserver.disconnect();
+      }
+      heroVideo.addEventListener('loadedmetadata', handleMetadata);
+
+      if (isVideoReady) {
+        updateVideoTime();
+      }
+
+      return () => {
+        intersectionObserver.disconnect();
+        window.removeEventListener('scroll', handleScroll);
+        window.removeEventListener('resize', handleResize);
+        heroVideo.removeEventListener('loadedmetadata', handleMetadata);
+        resizeObserverCleanup();
+      };
+    };
+
+    const enableHeroVideo = () => {
+      if (teardownHeroVideo) {
+        teardownHeroVideo();
+        teardownHeroVideo = null;
+      }
+      if (!prefersReducedMotion.matches) {
+        teardownHeroVideo = initHeroVideo();
+      }
+    };
+
+    const initOverviewVectorField = () => {
+      const overviewSection = document.querySelector('.overview-section');
+      const container = overviewSection ? overviewSection.querySelector('.overview-interactive') : null;
+      const canvas = container ? container.querySelector('.overview-field-canvas') : null;
+      if (!overviewSection || !container || !canvas) {
+        return null;
+      }
+      const ctx = canvas.getContext('2d');
+      if (!ctx) {
+        return null;
+      }
+
+      const config = overviewFieldConfig;
+      const cells = [];
+      const pointer = { x: 0, y: 0, active: false };
+      const DPR = Math.min(window.devicePixelRatio || 1, 2);
+      let width = 0;
+      let height = 0;
+      let gridSpacing = config.spacing;
+      let frame = null;
+
+      const normalizeAngle = (value) => Math.atan2(Math.sin(value), Math.cos(value));
+
+      const buildGrid = () => {
+        if (!width || !height) {
+          return;
+        }
+        cells.length = 0;
+        const desired = Math.max(12, Number(config.spacing) || 12);
+        const cols = Math.max(1, Math.round(width / desired));
+        const rows = Math.max(1, Math.round(height / desired));
+        const stepX = width / cols;
+        const stepY = height / rows;
+        gridSpacing = Math.min(stepX, stepY);
+
+        for (let col = 0; col < cols; col += 1) {
+          const x = (col + 0.5) * stepX;
+          for (let row = 0; row < rows; row += 1) {
+            const y = (row + 0.5) * stepY;
+            cells.push({ x, y, angle: 0 });
+          }
+        }
+      };
+
+      const resize = () => {
+        const rect = canvas.getBoundingClientRect();
+        width = Math.max(1, Math.round(rect.width));
+        height = Math.max(1, Math.round(rect.height));
+
+        const canvasWidth = Math.round(rect.width * DPR);
+        const canvasHeight = Math.round(rect.height * DPR);
+        if (canvas.width !== canvasWidth || canvas.height !== canvasHeight) {
+          canvas.width = canvasWidth;
+          canvas.height = canvasHeight;
+        }
+        canvas.style.width = `${rect.width}px`;
+        canvas.style.height = `${rect.height}px`;
+        ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+        ctx.lineCap = 'round';
+        ctx.strokeStyle = config.lineColor || '#182536';
+        buildGrid();
+      };
+
+      const render = () => {
+        frame = window.requestAnimationFrame(render);
+        if (!width || !height || !cells.length) {
+          return;
+        }
+
+        ctx.clearRect(0, 0, width, height);
+        const targetX = pointer.active ? pointer.x : width * 0.55;
+        const targetY = pointer.active ? pointer.y : height * 0.45;
+        const lineLength = gridSpacing * config.linePortion;
+        const halfLength = lineLength * 0.5;
+        const maxDistance = Math.max(width, height);
+        const baseThickness = Math.max(0.3, Math.min(4, Number(config.thickness) || 1));
+        const scaleFactor = gridSpacing / Math.max(24, Number(config.spacing) || 24);
+        const finalThickness = Math.max(0.3, Math.min(5, baseThickness * scaleFactor));
+        ctx.lineWidth = finalThickness;
+        ctx.strokeStyle = config.lineColor || '#182536';
+
+        for (let i = 0; i < cells.length; i += 1) {
+          const cell = cells[i];
+          const dx = targetX - cell.x;
+          const dy = targetY - cell.y;
+          const targetAngle = Math.atan2(dy, dx);
+          const diff = normalizeAngle(targetAngle - cell.angle);
+          cell.angle += diff * config.speed;
+
+          const distance = Math.hypot(dx, dy);
+          const strength = 1 - Math.min(1, distance / (maxDistance * 0.85));
+          const alpha = config.baseAlpha + strength * config.alphaBoost;
+          ctx.globalAlpha = Math.min(0.3, Math.max(config.baseAlpha, alpha));
+
+          ctx.save();
+          ctx.translate(cell.x, cell.y);
+          ctx.rotate(cell.angle);
+          ctx.beginPath();
+          ctx.moveTo(-halfLength, 0);
+          ctx.lineTo(halfLength, 0);
+          ctx.stroke();
+          ctx.restore();
+        }
+      };
+
+      const handlePointerMove = (event) => {
+        const rect = canvas.getBoundingClientRect();
+        pointer.x = event.clientX - rect.left;
+        pointer.y = event.clientY - rect.top;
+        pointer.active =
+          pointer.x >= 0 &&
+          pointer.x <= rect.width &&
+          pointer.y >= 0 &&
+          pointer.y <= rect.height;
+      };
+
+      const handlePointerLeave = () => {
+        pointer.active = false;
+      };
+
+      container.addEventListener('pointermove', handlePointerMove);
+      container.addEventListener('pointerleave', handlePointerLeave);
+
+      let resizeCleanup = () => {};
+      if (typeof ResizeObserver === 'function') {
+        const resizeObserver = new ResizeObserver(resize);
+        resizeObserver.observe(container);
+        resizeCleanup = () => resizeObserver.disconnect();
+      } else {
+        window.addEventListener('resize', resize);
+        resizeCleanup = () => window.removeEventListener('resize', resize);
+      }
+
+      resize();
+      frame = window.requestAnimationFrame(render);
+
+      return () => {
+        if (frame) {
+          cancelAnimationFrame(frame);
+        }
+        resizeCleanup();
+        container.removeEventListener('pointermove', handlePointerMove);
+        container.removeEventListener('pointerleave', handlePointerLeave);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      };
+    };
+
+    const enableOverviewField = () => {
+      if (teardownOverviewField) {
+        teardownOverviewField();
+        teardownOverviewField = null;
+      }
+      if (!prefersReducedMotion.matches) {
+        teardownOverviewField = initOverviewVectorField();
+      }
+    };
+
+    const applyMotionPreferences = () => {
+      enableHeroVideo();
+      enableOverviewField();
+    };
+
+    applyMotionPreferences();
+
+    if (typeof prefersReducedMotion.addEventListener === 'function') {
+      prefersReducedMotion.addEventListener('change', applyMotionPreferences);
+    } else if (typeof prefersReducedMotion.addListener === 'function') {
+      prefersReducedMotion.addListener(applyMotionPreferences);
+    }
+  </script>
+</body>
+</html>

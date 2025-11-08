@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jet Engine | Cornell Physical Intelligence</title>
+  <link rel="icon" type="image/png" href="../../SiteImages/Favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Questrial&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Questrial&display=swap" rel="stylesheet"></noscript>
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <script nomodule src="https://unpkg.com/@google/model-viewer/dist/model-viewer-legacy.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Questrial', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: white;
+      color: #000;
+      overflow-x: hidden;
+      padding-top: calc(var(--nav-height) + 2rem);
+    }
+
+    :root {
+      --nav-height: clamp(2.6rem, 4vw, 3.2rem);
+    }
+
+    .top-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 10000;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(4px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+      box-shadow: 
+        inset 0 1px 1px rgba(255, 255, 255, 0.5),
+        0 8px 20px rgba(15, 15, 15, 0.08);
+    }
+
+    .top-nav__inner {
+      max-width: min(1180px, 92vw);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+      min-height: var(--nav-height);
+      padding: clamp(0.35rem, 1.3vw, 0.65rem) clamp(1.3rem, 3.6vw, 2.6rem);
+    }
+
+    .top-nav__title-group {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .top-nav__title {
+      font-size: clamp(1.1rem, 2.2vw, 1.5rem);
+      font-family: 'Questrial', sans-serif;
+      color: #B31B1B;
+      margin: 0;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .top-nav__subtitle {
+      font-size: clamp(0.7rem, 1.3vw, 0.85rem);
+      color: #666;
+      margin: 0;
+      line-height: 1.3;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .top-nav__back {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: clamp(1.8rem, 2.5vw, 2rem);
+      height: clamp(1.8rem, 2.5vw, 2rem);
+      max-height: calc(var(--nav-height) - 0.5rem);
+      max-width: calc(var(--nav-height) - 0.5rem);
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.25);
+      border: none;
+      text-decoration: none;
+      backdrop-filter: blur(8px);
+      transition: all 0.2s ease;
+      font-size: clamp(0.85rem, 1.3vw, 1rem);
+      color: #132031;
+      flex-shrink: 0;
+      box-sizing: border-box;
+      box-shadow: 0 2px 8px rgba(19, 32, 49, 0.15);
+    }
+
+    .top-nav__back:hover {
+      background: rgba(255, 255, 255, 0.35);
+      box-shadow: 0 2px 12px rgba(19, 32, 49, 0.2);
+    }
+
+    .top-nav__brand {
+      font-family: 'Questrial', sans-serif;
+      font-size: clamp(1.05rem, 2vw, 1.35rem);
+      font-weight: 700;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: #101a28;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .project-detail-section {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 1.5rem 1.5rem 3rem;
+    }
+
+    .project-main {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-bottom: 2rem;
+      align-items: start;
+    }
+
+    .model-viewer-container {
+      width: 100%;
+      height: 400px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    model-viewer {
+      width: 100%;
+      height: 100%;
+      background-color: transparent;
+      display: block;
+      --poster-color: transparent;
+    }
+    
+    model-viewer::part(default-ar-button) {
+      display: none;
+    }
+
+    .model-interact-hint {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.9);
+      padding: clamp(0.45rem, 1.4vw, 0.65rem) clamp(0.9rem, 2.4vw, 1.35rem);
+      border-radius: 0.9rem;
+      border: 1px solid rgba(255, 255, 255, 0.45);
+      background: rgba(255, 255, 255, 0.24);
+      backdrop-filter: blur(8px);
+      box-shadow:
+        inset 0 1px 1px rgba(255, 255, 255, 0.6),
+        0 10px 24px rgba(15, 15, 15, 0.2);
+      color: #132031;
+      font-size: clamp(0.75rem, 1.8vw, 0.95rem);
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      text-transform: none;
+      opacity: 0;
+      transition: opacity 0.35s ease, transform 0.35s ease;
+      pointer-events: none;
+      z-index: 25;
+      white-space: nowrap;
+    }
+
+    .model-interact-hint::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      backdrop-filter: blur(4px);
+      filter: url(#glass-distortion);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .model-interact-hint::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: rgba(255, 255, 255, 0.08);
+      pointer-events: none;
+      box-shadow:
+        inset 2px 2px 1px rgba(255, 255, 255, 0.6),
+        inset -1px -1px 1px rgba(255, 255, 255, 0.5);
+      z-index: -1;
+    }
+
+    .model-interact-hint.visible {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .project-content {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .project-description {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: #555;
+    }
+
+    .project-images {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      width: 100vw;
+      margin-left: calc(-50vw + 50%);
+      margin-top: 2rem;
+      border-top: 2px solid #B31B1B;
+      border-bottom: 2px solid #B31B1B;
+    }
+
+    .project-image-wrapper {
+      position: relative;
+      width: 100%;
+      height: 500px;
+      overflow: visible;
+      display: block;
+    }
+
+    .project-image-wrapper:first-child {
+      margin-right: 0;
+    }
+
+    .project-image-wrapper:last-child {
+      margin-left: 0;
+    }
+
+    .project-image {
+      width: 100%;
+      height: 500px;
+      display: block;
+      object-fit: cover;
+      border-radius: 0;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+      position: relative;
+      z-index: 1;
+    }
+    
+    video.project-image {
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .project-image-overlay {
+      display: none;
+    }
+
+    .project-image-wrapper:hover {
+      outline: 2px solid #B31B1B;
+      outline-offset: 0;
+      z-index: 5;
+    }
+
+
+    @media (max-width: 768px) {
+      .project-main {
+        grid-template-columns: 1fr;
+      }
+      .project-images {
+        grid-template-columns: 1fr;
+      }
+      .top-nav__subtitle {
+        display: none;
+      }
+    }
+
+    svg {
+      display: none;
+    }
+
+    footer {
+      font-size: 0.65rem;
+      color: #555;
+      text-align: center;
+      padding: 3rem 1rem 2.5rem;
+      line-height: 1.4;
+      font-family: 'Questrial', sans-serif;
+    }
+
+    footer a {
+      color: inherit;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <header class="top-nav">
+    <div class="top-nav__inner">
+      <a class="top-nav__back" href="../">←</a>
+      <div class="top-nav__title-group">
+        <h1 class="top-nav__title">Jet Engine</h1>
+        <p class="top-nav__subtitle">High performance in-house designed jet propulsion system prototype for efficient and compact performance.</p>
+      </div>
+      <a class="top-nav__brand" href="../../">CuPi</a>
+    </div>
+  </header>
+
+  <section class="project-detail-section">
+    <div class="project-main">
+      <div class="model-viewer-container">
+        <model-viewer
+          src="../../3DModels/JetEngineCompressor.glb"
+          alt="Jet Engine 3D Model"
+          camera-controls
+          camera-orbit="0deg 90deg 150%"
+          min-camera-orbit="auto auto 150%"
+          max-camera-orbit="auto auto 150%"
+          field-of-view="45deg"
+          disable-zoom
+          interaction-policy="allow-when-focused"
+          auto-rotate
+          auto-rotate-delay="3000"
+          auto-rotate-speed="0.5rad/s"
+          ar
+          ar-modes="webxr scene-viewer quick-look"
+          skybox-image=""
+          environment-image=""
+        ></model-viewer>
+        <div class="model-interact-hint" role="status" aria-live="polite" aria-hidden="true">Drag to explore the 3D model</div>
+      </div>
+
+      <div class="project-content">
+        <div class="project-description">
+          <p>
+            Our Jet Engine project represents a significant engineering challenge in developing a high-performance propulsion system optimized for small-scale UAV platforms. The system is entirely custom-designed, from the compressor stages to the combustion chamber, enabling unprecedented control over performance characteristics.
+          </p>
+          <p>
+            The fully custom fuel injection system has been engineered for future integration with novel oxidizer injection technologies, opening pathways to advanced propulsion concepts. This project pushes the boundaries of what's possible in compact jet engine design, balancing efficiency, power output, and form factor constraints.
+          </p>
+          <p>
+            The prototype serves as both a research platform and a proof-of-concept for next-generation propulsion systems.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-images">
+      <div class="project-image-wrapper">
+        <img src="../../JetEngineImages/JetCompressor.png" alt="Jet Engine detail" class="project-image">
+        <div class="project-image-overlay">
+          <div class="project-image-overlay-content">
+            <p class="project-image-description">Detailed view of the custom jet engine compressor and combustion chamber assembly.</p>
+          </div>
+        </div>
+      </div>
+      <div class="project-image-wrapper">
+        <img src="../../JetEngineImages/CompressorSide.png" alt="Jet Engine compressor side view" class="project-image">
+        <div class="project-image-overlay">
+          <div class="project-image-overlay-content">
+            <p class="project-image-description">Side view of the compressor showing internal components and airflow design.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div>This organization is a registered student organization of Cornell University.</div>
+    <div>Equal Education and Employment: <a href="https://hr.cornell.edu/about/workplace-rights/equal-education-and-employment">https://hr.cornell.edu/about/workplace-rights/equal-education-and-employment</a></div>
+    <div>For Questions &amp; Sponsorship Inquiries:</div>
+    <div>Contact <a href="mailto:cuphysicalintelligence@cornell.org">cuphysicalintelligence@cornell.org</a></div>
+  </footer>
+
+  <svg style="display: none">
+    <filter id="glass-distortion" x="0%" y="0%" width="100%" height="100%" filterUnits="objectBoundingBox">
+      <feTurbulence type="fractalNoise" baseFrequency="0.01 0.01" numOctaves="1" seed="5" result="turbulence" />
+      <feComponentTransfer in="turbulence" result="mapped">
+        <feFuncR type="gamma" amplitude="1" exponent="10" offset="0.5" />
+        <feFuncG type="gamma" amplitude="0" exponent="1" offset="0" />
+        <feFuncB type="gamma" amplitude="0" exponent="1" offset="0.5" />
+      </feComponentTransfer>
+      <feGaussianBlur in="turbulence" stdDeviation="4" result="softMap" />
+      <feSpecularLighting in="softMap" surfaceScale="5" specularConstant="1" specularExponent="100" lighting-color="white" result="specLight">
+        <fePointLight x="-200" y="-200" z="300" />
+      </feSpecularLighting>
+      <feComposite in="specLight" operator="arithmetic" k1="0" k2="1" k3="1" k4="0" result="litImage" />
+      <feDisplacementMap in="SourceGraphic" in2="softMap" scale="15" xChannelSelector="R" yChannelSelector="G" />
+    </filter>
+  </svg>
+
+  <script>
+    // Model viewer controls
+    document.addEventListener('DOMContentLoaded', () => {
+      const modelViewer = document.querySelector('model-viewer');
+      if (modelViewer) {
+        modelViewer.addEventListener('error', (event) => {
+          console.error('Error loading 3D model:', event.detail);
+        });
+        modelViewer.addEventListener('load', () => {
+          console.log('3D model loaded successfully');
+        });
+
+        // Slow auto-rotate when idle
+        let idleTimer = null;
+        const idleDelay = 2000; // 2 seconds of inactivity
+        let isInteracting = false;
+        
+        function startAutoRotate() {
+          modelViewer.autoRotate = true;
+          modelViewer.autoRotateDelay = 0;
+          // Make rotation slower by setting a custom rotation speed
+          modelViewer.autoRotateSpeed = '0.5rad/s'; // Slow rotation
+        }
+        
+        function stopAutoRotate() {
+          modelViewer.autoRotate = false;
+        }
+        
+        function resetIdleTimer() {
+          clearTimeout(idleTimer);
+          stopAutoRotate();
+          idleTimer = setTimeout(startAutoRotate, idleDelay);
+        }
+
+        // Reduce sensitivity by 2x
+        let lastOrbit = null;
+        let sensitivityAdjuster = null;
+        
+        function adjustSensitivity() {
+          if (!isInteracting) return;
+          
+          const currentOrbit = modelViewer.getCameraOrbit();
+          if (lastOrbit && currentOrbit) {
+            const deltaAzimuth = currentOrbit.azimuth - lastOrbit.azimuth;
+            const deltaPolar = currentOrbit.polar - lastOrbit.polar;
+            
+            // Only adjust if there's significant change (to avoid feedback loops)
+            if (Math.abs(deltaAzimuth) > 0.001 || Math.abs(deltaPolar) > 0.001) {
+              // Scale down the change by 2x
+              const scaledAzimuth = lastOrbit.azimuth + (deltaAzimuth * 0.5);
+              const scaledPolar = lastOrbit.polar + (deltaPolar * 0.5);
+              
+              modelViewer.cameraOrbit = `${(scaledAzimuth * 180 / Math.PI)}deg ${(scaledPolar * 180 / Math.PI)}deg 150%`;
+              lastOrbit = { azimuth: scaledAzimuth, polar: scaledPolar, radius: currentOrbit.radius };
+            }
+          } else {
+            lastOrbit = currentOrbit;
+          }
+          
+          if (isInteracting) {
+            sensitivityAdjuster = requestAnimationFrame(adjustSensitivity);
+          }
+        }
+
+        const forwardWheelToPage = (event) => {
+          if (event.ctrlKey || event.metaKey) {
+            return;
+          }
+
+          const target = document.scrollingElement || document.documentElement;
+          if (!target) {
+            return;
+          }
+
+          event.preventDefault();
+          target.scrollBy({ top: event.deltaY, left: 0, behavior: 'auto' });
+        };
+
+        modelViewer.addEventListener('wheel', forwardWheelToPage, { passive: false });
+        
+        ['mousedown', 'touchstart'].forEach(event => {
+          modelViewer.addEventListener(event, () => {
+            isInteracting = true;
+            lastOrbit = modelViewer.getCameraOrbit();
+            resetIdleTimer();
+            adjustSensitivity();
+          });
+        });
+        
+        ['mouseup', 'touchend', 'mouseleave'].forEach(event => {
+          modelViewer.addEventListener(event, () => {
+            isInteracting = false;
+            if (sensitivityAdjuster) {
+              cancelAnimationFrame(sensitivityAdjuster);
+            }
+            resetIdleTimer();
+          });
+        });
+        
+        // Start auto-rotate after model loads
+        modelViewer.addEventListener('load', () => {
+          resetIdleTimer();
+        });
+        
+        // Make background truly transparent
+        modelViewer.addEventListener('load', () => {
+          const canvas = modelViewer.shadowRoot?.querySelector('canvas');
+          if (canvas) {
+            canvas.style.background = 'transparent';
+          }
+        });
+
+        const interactHint = document.querySelector('.model-interact-hint');
+        if (interactHint) {
+          let hintShown = false;
+
+          const showHint = () => {
+            if (hintShown) {
+              return;
+            }
+            hintShown = true;
+            interactHint.classList.add('visible');
+            interactHint.setAttribute('aria-hidden', 'false');
+            setTimeout(() => {
+              interactHint.classList.remove('visible');
+              interactHint.setAttribute('aria-hidden', 'true');
+            }, 2200);
+          };
+
+          const cancelHint = () => {
+            hintShown = true;
+            interactHint.classList.remove('visible');
+            interactHint.setAttribute('aria-hidden', 'true');
+          };
+
+          setTimeout(showHint, 2000);
+
+          ['pointerdown', 'mousedown', 'touchstart', 'wheel'].forEach(event => {
+            modelViewer.addEventListener(event, cancelHint, { once: true });
+          });
+        }
+      }
+
+    });
+  </script>
+</body>
+</html>

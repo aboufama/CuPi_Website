@@ -307,11 +307,12 @@
       --overview-shell-inline: clamp(1.8rem, 4.8vw, 3.4rem);
       --overview-shell-top: clamp(2.6rem, 6.4vw, 3.9rem);
       --overview-shell-bottom: clamp(2.2rem, 5.8vw, 3.4rem);
+      --overview-shell-radius: 14px;
       position: relative;
       width: 100%;
       padding: var(--overview-shell-top) var(--overview-shell-inline) var(--overview-shell-bottom);
       background: none;
-      border-radius: 0;
+      border-radius: var(--overview-shell-radius);
       box-shadow: none;
       overflow: hidden;
     }
@@ -325,6 +326,102 @@
       pointer-events: none;
       z-index: 1;
       border-radius: inherit;
+    }
+
+    .overview-field-controls {
+      position: relative;
+      z-index: 4;
+      margin-left: auto;
+      margin-bottom: clamp(1.4rem, 4vw, 2.3rem);
+      width: min(360px, 48vw);
+      color: #162332;
+      font-size: 0.85rem;
+      border-radius: 1rem;
+      border: 1px solid rgba(22, 35, 50, 0.18);
+      background: rgba(252, 253, 255, 0.9);
+      box-shadow: 0 18px 36px rgba(22, 35, 50, 0.12);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      overflow: hidden;
+    }
+
+    .overview-field-controls summary {
+      cursor: pointer;
+      padding: 0.85rem 1.2rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      list-style: none;
+    }
+
+    .overview-field-controls summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .overview-field-controls summary::after {
+      content: '▾';
+      font-size: 0.78rem;
+      transition: transform 0.2s ease;
+    }
+
+    .overview-field-controls[open] summary::after {
+      transform: rotate(-180deg);
+    }
+
+    .overview-field-controls__panel {
+      padding: 1.1rem 1.2rem 1.3rem;
+      display: grid;
+      gap: 0.95rem;
+    }
+
+    .overview-field-control {
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+
+    .overview-field-control__label {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 0.75rem;
+      font-weight: 500;
+      color: #162332;
+    }
+
+    .overview-field-control__value {
+      font-variant-numeric: tabular-nums;
+      font-size: 0.78rem;
+      color: rgba(22, 35, 50, 0.6);
+    }
+
+    .overview-field-control input[type="range"] {
+      width: 100%;
+      accent-color: #B31B1B;
+      cursor: pointer;
+    }
+
+    .overview-field-control input[type="color"] {
+      width: 100%;
+      height: 36px;
+      border-radius: 0.6rem;
+      border: 1px solid rgba(22, 35, 50, 0.18);
+      padding: 0.25rem;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    @media (max-width: 720px) {
+      .overview-field-controls {
+        margin: 0 auto clamp(1.2rem, 4vw, 1.8rem);
+        width: min(360px, 100%);
+      }
+      .overview-field-controls summary {
+        justify-content: center;
+      }
     }
 
     .overview-grid {
@@ -618,6 +715,168 @@
   <section class="overview-section" aria-label="Cornell University Physical Intelligence overview">
     <div class="overview-interactive">
       <canvas class="overview-field-canvas" aria-hidden="true"></canvas>
+      <details class="overview-field-controls">
+        <summary>Field Settings</summary>
+        <div class="overview-field-controls__panel">
+          <label class="overview-field-control" for="overview-field-density">
+            <div class="overview-field-control__label">
+              <span>Density</span>
+              <span class="overview-field-control__value" data-field-output="spacing">40</span>
+            </div>
+            <input
+              id="overview-field-density"
+              type="range"
+              min="20"
+              max="120"
+              step="4"
+              value="40"
+              data-field="spacing"
+              aria-label="Adjust vector field density"
+            >
+          </label>
+          <label class="overview-field-control" for="overview-field-alpha">
+            <div class="overview-field-control__label">
+              <span>Ambient Alpha</span>
+              <span class="overview-field-control__value" data-field-output="baseAlpha">0.03</span>
+            </div>
+            <input
+              id="overview-field-alpha"
+              type="range"
+              min="0.01"
+              max="0.2"
+              step="0.005"
+              value="0.03"
+              data-field="baseAlpha"
+              aria-label="Adjust vector field base opacity"
+            >
+          </label>
+          <label class="overview-field-control" for="overview-field-boost">
+            <div class="overview-field-control__label">
+              <span>Highlight Boost</span>
+              <span class="overview-field-control__value" data-field-output="alphaBoost">0.10</span>
+            </div>
+            <input
+              id="overview-field-boost"
+              type="range"
+              min="0.05"
+              max="0.4"
+              step="0.01"
+              value="0.10"
+              data-field="alphaBoost"
+              aria-label="Adjust vector field highlight intensity"
+            >
+          </label>
+          <label class="overview-field-control" for="overview-field-speed">
+            <div class="overview-field-control__label">
+              <span>Response Speed</span>
+              <span class="overview-field-control__value" data-field-output="speed">0.14</span>
+            </div>
+            <input
+              id="overview-field-speed"
+              type="range"
+              min="0.04"
+              max="0.3"
+              step="0.01"
+              value="0.14"
+              data-field="speed"
+              aria-label="Adjust vector field responsiveness"
+            >
+          </label>
+          <label class="overview-field-control" for="overview-field-length">
+            <div class="overview-field-control__label">
+              <span>Line Length</span>
+              <span class="overview-field-control__value" data-field-output="linePortion">28%</span>
+            </div>
+            <input
+              id="overview-field-length"
+              type="range"
+              min="0.1"
+              max="0.6"
+              step="0.01"
+              value="0.28"
+              data-field="linePortion"
+              aria-label="Adjust vector field line length"
+            >
+          </label>
+          <label class="overview-field-control" for="overview-field-thickness">
+            <div class="overview-field-control__label">
+              <span>Line Thickness</span>
+              <span class="overview-field-control__value" data-field-output="thickness">1.80px</span>
+            </div>
+            <input
+              id="overview-field-thickness"
+              type="range"
+              min="0.4"
+              max="3.5"
+              step="0.05"
+              value="1.8"
+              data-field="thickness"
+              aria-label="Adjust vector field line thickness"
+            >
+          </label>
+          <label class="overview-field-control" for="overview-field-color">
+            <div class="overview-field-control__label">
+              <span>Line Color</span>
+              <span class="overview-field-control__value" data-field-output="lineColor">#1F2B3D</span>
+            </div>
+            <input
+              id="overview-field-color"
+              type="color"
+              value="#1F2B3D"
+              data-field="lineColor"
+              aria-label="Adjust vector field line color"
+            >
+          </label>
+          <label class="overview-field-control" for="overview-field-edge-x">
+            <div class="overview-field-control__label">
+              <span>Horizontal Edge</span>
+              <span class="overview-field-control__value" data-field-output="edgeFractionX">0.24</span>
+            </div>
+            <input
+              id="overview-field-edge-x"
+              type="range"
+              min="0.05"
+              max="0.45"
+              step="0.01"
+              value="0.24"
+              data-field="edgeFractionX"
+              aria-label="Adjust horizontal edge offset"
+            >
+          </label>
+          <label class="overview-field-control" for="overview-field-edge-y">
+            <div class="overview-field-control__label">
+              <span>Vertical Edge</span>
+              <span class="overview-field-control__value" data-field-output="edgeFractionY">0.22</span>
+            </div>
+            <input
+              id="overview-field-edge-y"
+              type="range"
+              min="0.05"
+              max="0.45"
+              step="0.01"
+              value="0.22"
+              data-field="edgeFractionY"
+              aria-label="Adjust vertical edge offset"
+            >
+          </label>
+          <label class="overview-field-control" for="overview-field-radius">
+            <div class="overview-field-control__label">
+              <span>Corner Radius</span>
+              <span class="overview-field-control__value" data-field-output="cornerRadius">14px</span>
+            </div>
+            <input
+              id="overview-field-radius"
+              type="range"
+              min="0"
+              max="48"
+              step="1"
+              value="14"
+              data-field="cornerRadius"
+              aria-label="Adjust container corner radius"
+            >
+          </label>
+        </div>
+      </details>
       <div class="overview-grid">
         <article class="overview-panel overview-panel--mission">
           <div class="overview-heading">
@@ -671,13 +930,14 @@
     const overviewFieldConfig = {
       spacing: 40,
       baseAlpha: 0.06,
-      alphaBoost: 0.22,
+      alphaBoost: 0.24,
       speed: 0.14,
-      linePortion: 0.26,
-      thickness: 1.9,
+      linePortion: 0.24,
+      thickness: 2,
       lineColor: '#1F2B3D',
-      edgeFractionX: 0.16,
-      edgeFractionY: 0.22,
+      edgeFractionX: 0.26,
+      edgeFractionY: 0.24,
+      cornerRadius: 14,
     };
     const heroSection = document.querySelector('.hero-section');
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -838,11 +1098,107 @@
       const config = overviewFieldConfig;
       const cells = [];
       const pointer = { x: 0, y: 0, active: false };
+      const controls = container.querySelector('.overview-field-controls');
+      const controlInputs = [];
+      const controlCleanup = [];
+      const controlOutputs = new Map();
       const DPR = Math.min(window.devicePixelRatio || 1, 2);
       let width = 0;
       let height = 0;
       let gridSpacing = config.spacing;
       let frame = null;
+
+      const formatDisplayValue = (field, value) => {
+        switch (field) {
+          case 'spacing':
+            return `${Math.round(value)}`;
+          case 'linePortion':
+            return `${Math.round(value * 100)}%`;
+          case 'thickness':
+            return `${Number(value).toFixed(2)}px`;
+          case 'edgeFractionX':
+          case 'edgeFractionY':
+            return Number(value).toFixed(2);
+          case 'cornerRadius':
+            return `${Math.round(value)}px`;
+          case 'baseAlpha':
+          case 'alphaBoost':
+          case 'speed':
+            return Number(value).toFixed(2);
+          case 'lineColor':
+            return String(value).toUpperCase();
+          default:
+            return String(value);
+        }
+      };
+
+      const updateControlOutput = (field, value) => {
+        const targets = controlOutputs.get(field);
+        if (!targets) {
+          return;
+        }
+        const formatted = formatDisplayValue(field, value);
+        targets.forEach((node) => {
+          node.textContent = formatted;
+        });
+      };
+
+      const applyCornerRadius = (radius) => {
+        container.style.setProperty('--overview-shell-radius', `${radius}px`);
+      };
+      applyCornerRadius(config.cornerRadius);
+
+      if (controls) {
+        const inputs = Array.from(controls.querySelectorAll('[data-field]'));
+        inputs.forEach((input) => {
+          const field = input.dataset.field;
+          if (!(field in config)) {
+            return;
+          }
+          controlInputs.push(input);
+          const outputs = Array.from(
+            controls.querySelectorAll(`[data-field-output="${field}"]`)
+          );
+          if (outputs.length) {
+            controlOutputs.set(field, outputs);
+          }
+          const currentValue = config[field];
+          if (input.type === 'color') {
+            input.value = currentValue;
+          } else {
+            input.value = currentValue;
+          }
+          updateControlOutput(field, currentValue);
+
+          const handler = (event) => {
+            let newValue;
+            if (event.target.type === 'color') {
+              newValue = event.target.value;
+              config[field] = String(newValue).toUpperCase();
+              input.value = config[field];
+            } else {
+              newValue = parseFloat(event.target.value);
+              if (!Number.isFinite(newValue)) {
+                return;
+              }
+              config[field] = newValue;
+            }
+
+            if (field === 'cornerRadius') {
+              applyCornerRadius(config[field]);
+            }
+
+            updateControlOutput(field, config[field]);
+
+            if (field === 'spacing' || field === 'edgeFractionX' || field === 'edgeFractionY') {
+              buildGrid();
+            }
+          };
+
+          input.addEventListener('input', handler);
+          controlCleanup.push(() => input.removeEventListener('input', handler));
+        });
+      }
 
       const normalizeAngle = (value) => Math.atan2(Math.sin(value), Math.cos(value));
 
@@ -898,13 +1254,13 @@
         const lineLength = gridSpacing * config.linePortion;
         const halfLength = lineLength * 0.5;
         const maxDistance = Math.max(width, height);
-        const baseThickness = Math.max(0.3, Math.min(4, Number(config.thickness) || 1));
+        const baseThickness = Math.max(0.3, Math.min(6, Number(config.thickness) || 1));
         const scaleFactor = gridSpacing / Math.max(24, Number(config.spacing) || 24);
-        const finalThickness = Math.max(0.3, Math.min(5, baseThickness * scaleFactor));
+        const finalThickness = Math.max(0.3, Math.min(6, baseThickness * scaleFactor));
         ctx.lineWidth = finalThickness;
-        ctx.strokeStyle = config.lineColor || '#182536';
-        const marginX = Math.max(24, width * (config.edgeFractionX || 0.15));
-        const marginY = Math.max(24, height * (config.edgeFractionY || 0.18));
+        ctx.strokeStyle = config.lineColor || '#1F2B3D';
+        const marginX = Math.max(24, width * (config.edgeFractionX || 0.2));
+        const marginY = Math.max(24, height * (config.edgeFractionY || 0.2));
 
         for (let i = 0; i < cells.length; i += 1) {
           const cell = cells[i];
@@ -977,6 +1333,7 @@
         container.removeEventListener('pointermove', handlePointerMove);
         container.removeEventListener('pointerleave', handlePointerLeave);
         ctx.clearRect(0, 0, canvas.width, canvas.height);
+        controlCleanup.forEach((fn) => fn());
       };
     };
 

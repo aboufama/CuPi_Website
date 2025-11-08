@@ -385,7 +385,7 @@
       z-index: 10;
     }
 
-    .team-card:hover .team-bio-overlay {
+    .team-card.is-active .team-bio-overlay {
       opacity: 1;
     }
 
@@ -403,6 +403,11 @@
       isolation: isolate;
     }
 
+    @media (hover: hover) {
+      .team-card:hover .team-bio-overlay {
+        opacity: 1;
+      }
+    }
     .team-bio-content::before {
       content: '';
       position: absolute;
@@ -603,6 +608,39 @@
 
     <div class="team-container">
       <div>
+        <h2 class="section-subtitle">Faculty</h2>
+        <div class="team-grid">
+      <div class="team-card">
+        <div class="team-image-wrapper">
+          <img src="../Headshots/ProfWelde.png" alt="Professor Welde" class="team-image" width="198" height="251" loading="lazy" data-casual="../Headshots/ProfWelde.png" data-formal="../Headshots/ProfWelde_suit.png">
+          <div class="team-bio-overlay">
+            <div class="team-bio-content">
+              <div class="team-bio-text">He has worked extensively in drone control systems</div>
+            </div>
+          </div>
+        </div>
+        <div class="team-content">
+          <div class="team-name">Professor Welde</div>
+        </div>
+      </div>
+
+      <div class="team-card">
+        <div class="team-image-wrapper">
+          <img src="../Headshots/ProfYeo.png" alt="Professor Yeo" class="team-image" width="198" height="251" loading="lazy" data-casual="../Headshots/ProfYeo.png" data-formal="../Headshots/ProfYeo_Suit.png">
+          <div class="team-bio-overlay">
+            <div class="team-bio-content">
+              <div class="team-bio-text">Joined Cornell in 2020 after research in Singapore and postdocs at Tufts & MIT.</div>
+            </div>
+          </div>
+        </div>
+        <div class="team-content">
+          <div class="team-name">Professor Yeo</div>
+        </div>
+      </div>
+    </div>
+      </div>
+
+      <div>
         <h2 class="section-subtitle">Mechanical</h2>
         <div class="team-grid">
       <div class="team-card">
@@ -799,39 +837,6 @@
       </div>
     </div>
       </div>
-
-      <div>
-        <h2 class="section-subtitle">Faculty</h2>
-        <div class="team-grid">
-      <div class="team-card">
-        <div class="team-image-wrapper">
-          <img src="../Headshots/ProfWelde.png" alt="Professor Welde" class="team-image" width="198" height="251" loading="lazy" data-casual="../Headshots/ProfWelde.png" data-formal="../Headshots/ProfWelde_suit.png">
-          <div class="team-bio-overlay">
-            <div class="team-bio-content">
-              <div class="team-bio-text">He has worked extensively in drone control systems</div>
-            </div>
-          </div>
-        </div>
-        <div class="team-content">
-          <div class="team-name">Professor Welde</div>
-        </div>
-      </div>
-
-      <div class="team-card">
-        <div class="team-image-wrapper">
-          <img src="../Headshots/ProfYeo.png" alt="Professor Yeo" class="team-image" width="198" height="251" loading="lazy" data-casual="../Headshots/ProfYeo.png" data-formal="../Headshots/ProfYeo_Suit.png">
-          <div class="team-bio-overlay">
-            <div class="team-bio-content">
-              <div class="team-bio-text">Joined Cornell in 2020 after research in Singapore and postdocs at Tufts & MIT.</div>
-            </div>
-          </div>
-        </div>
-        <div class="team-content">
-          <div class="team-name">Professor Yeo</div>
-        </div>
-      </div>
-    </div>
-      </div>
     </div>
   </section>
 
@@ -911,6 +916,45 @@
         toggleFormalMode();
       }
     });
+  </script>
+  <script>
+    (function() {
+      const cards = Array.from(document.querySelectorAll('.team-card'));
+      if (!cards.length) {
+        return;
+      }
+
+      const hoverQuery = window.matchMedia('(hover: hover)');
+      const clearActive = () => cards.forEach((card) => card.classList.remove('is-active'));
+
+      if (typeof hoverQuery.addEventListener === 'function') {
+        hoverQuery.addEventListener('change', clearActive);
+      } else if (typeof hoverQuery.addListener === 'function') {
+        hoverQuery.addListener(clearActive);
+      }
+
+      cards.forEach((card) => {
+        card.addEventListener('click', () => {
+          if (hoverQuery.matches) {
+            return;
+          }
+          const isActive = card.classList.contains('is-active');
+          clearActive();
+          if (!isActive) {
+            card.classList.add('is-active');
+          }
+        });
+      });
+
+      document.addEventListener('click', (event) => {
+        if (hoverQuery.matches) {
+          return;
+        }
+        if (!event.target.closest('.team-card')) {
+          clearActive();
+        }
+      });
+    })();
   </script>
   <script>
     (function() {

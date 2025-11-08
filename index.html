@@ -670,12 +670,14 @@
     const HERO_INTERSECTION_THRESHOLD = 0.05;
     const overviewFieldConfig = {
       spacing: 40,
-      baseAlpha: 0.03,
-      alphaBoost: 0.1,
+      baseAlpha: 0.06,
+      alphaBoost: 0.22,
       speed: 0.14,
-      linePortion: 0.28,
-      thickness: 1.8,
-      lineColor: '#A8B8D6',
+      linePortion: 0.26,
+      thickness: 1.9,
+      lineColor: '#1F2B3D',
+      edgeFractionX: 0.16,
+      edgeFractionY: 0.22,
     };
     const heroSection = document.querySelector('.hero-section');
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -880,7 +882,7 @@
         canvas.style.height = `${rect.height}px`;
         ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
         ctx.lineCap = 'round';
-        ctx.strokeStyle = config.lineColor || '#182536';
+        ctx.strokeStyle = config.lineColor || '#1F2B3D';
         buildGrid();
       };
 
@@ -901,9 +903,19 @@
         const finalThickness = Math.max(0.3, Math.min(5, baseThickness * scaleFactor));
         ctx.lineWidth = finalThickness;
         ctx.strokeStyle = config.lineColor || '#182536';
+        const marginX = Math.max(24, width * (config.edgeFractionX || 0.15));
+        const marginY = Math.max(24, height * (config.edgeFractionY || 0.18));
 
         for (let i = 0; i < cells.length; i += 1) {
           const cell = cells[i];
+          const isEdgeCell =
+            cell.x <= marginX ||
+            cell.x >= width - marginX ||
+            cell.y <= marginY ||
+            cell.y >= height - marginY;
+          if (!isEdgeCell) {
+            continue;
+          }
           const dx = targetX - cell.x;
           const dy = targetY - cell.y;
           const targetAngle = Math.atan2(dy, dx);
@@ -913,7 +925,7 @@
           const distance = Math.hypot(dx, dy);
           const strength = 1 - Math.min(1, distance / (maxDistance * 0.85));
           const alpha = config.baseAlpha + strength * config.alphaBoost;
-          ctx.globalAlpha = Math.min(0.3, Math.max(config.baseAlpha, alpha));
+          ctx.globalAlpha = Math.min(0.5, Math.max(config.baseAlpha, alpha));
 
           ctx.save();
           ctx.translate(cell.x, cell.y);

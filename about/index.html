@@ -143,6 +143,12 @@
       box-shadow: inset 0 2px 3px rgba(255, 255, 255, 0.85), 0 8px 24px rgba(11, 34, 60, 0.2);
     }
 
+    .top-nav__apply.is-armed {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.6) 0%, rgba(224, 236, 255, 0.5) 45%, rgba(205, 227, 255, 0.45) 100%);
+      color: #0b223c;
+      box-shadow: inset 0 1.5px 2px rgba(255, 255, 255, 0.8), 0 6px 18px rgba(11, 34, 60, 0.18);
+    }
+
     .about-section {
       width: 100%;
       padding: 3rem 1.5rem 2rem;
@@ -511,10 +517,11 @@
 
       .top-nav__inner {
         flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: space-between;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
         align-items: center;
-        gap: clamp(0.5rem, 2vw, 1rem);
+        gap: clamp(0.4rem, 1.2vw, 0.75rem);
+        overflow-x: auto;
       }
 
       .top-nav__brand {
@@ -522,79 +529,107 @@
         text-align: left;
       }
 
+      .top-nav__inner > nav {
+        flex: 1 1 auto;
+        min-width: 0;
+        overflow-x: auto;
+      }
+
       .top-nav__list {
         flex: 1 1 auto;
-        flex-wrap: wrap;
-        justify-content: center;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
         align-items: center;
-        gap: clamp(0.5rem, 2vw, 0.75rem);
+        gap: clamp(0.4rem, 1.4vw, 0.65rem);
         margin: 0;
         display: flex;
+        overflow-x: auto;
+        scrollbar-width: none;
+      }
+
+      .top-nav__list::-webkit-scrollbar {
+        display: none;
       }
 
       .top-nav__apply {
         flex: 0 0 auto;
-        min-width: auto;
+        min-width: clamp(112px, 24vw, 140px);
         width: auto;
-        padding: var(--nav-link-padding-block) clamp(1rem, 2.5vw, 1.5rem);
-        font-size: clamp(0.6rem, 1.2vw, 0.75rem);
-        margin-left: 0;
+        padding: var(--nav-link-padding-block) clamp(0.85rem, 2vw, 1.25rem);
+        font-size: clamp(0.58rem, 1.1vw, 0.72rem);
+        margin-left: clamp(0.4rem, 1vw, 0.8rem);
         display: inline-flex;
-      }
-
-      .top-nav__inner {
-        flex-wrap: wrap;
-      }
-
-      .top-nav__inner > nav {
-        display: flex;
+        white-space: nowrap;
       }
 
       .top-nav__link {
         width: auto;
         min-width: auto;
         flex: 0 0 auto;
-        padding: var(--nav-link-padding-block) clamp(0.7rem, 2vw, 1rem);
-        font-size: clamp(0.6rem, 1.2vw, 0.75rem);
+        padding: var(--nav-link-padding-block) clamp(0.6rem, 1.8vw, 0.85rem);
+        font-size: clamp(0.58rem, 1vw, 0.72rem);
+      }
+
+      .top-nav__link,
+      .top-nav__apply {
+        background: transparent;
+        border: none;
+        box-shadow: none;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+      }
+
+      .top-nav__link:hover,
+      .top-nav__link[aria-current="page"],
+      .top-nav__apply:hover,
+      .top-nav__apply.is-armed {
+        background: transparent;
+        border: none;
+        box-shadow: none;
       }
 
       @media (max-width: 500px) {
         .top-nav__inner {
-          flex-direction: column;
+          flex-direction: row;
+          flex-wrap: nowrap;
           align-items: center;
-          justify-content: center;
-          gap: 0.75rem;
+          justify-content: flex-start;
+          gap: clamp(0.35rem, 1vw, 0.6rem);
         }
 
         .top-nav__brand {
-          width: 100%;
-          text-align: center;
-          margin-bottom: 0.25rem;
-          order: -1;
+          width: auto;
+          text-align: left;
+          margin-bottom: 0;
+          order: 0;
+        }
+
+        .top-nav__inner > nav {
+          flex: 1 1 auto;
+          min-width: 0;
         }
 
         .top-nav__inner > nav,
         .top-nav__apply {
           display: flex;
-          flex-wrap: wrap;
-          justify-content: center;
+          flex-wrap: nowrap;
+          justify-content: flex-start;
           align-items: center;
-          gap: clamp(0.5rem, 2vw, 0.75rem);
-          width: 100%;
+          gap: clamp(0.35rem, 1vw, 0.6rem);
+          width: auto;
           margin: 0;
         }
 
         .top-nav__list {
-          flex: none;
-          justify-content: center;
+          flex: 1 1 auto;
+          justify-content: flex-start;
           margin: 0;
           width: auto;
         }
 
         .top-nav__apply {
-          margin-left: 0;
-          display: inline-flex;
-          flex: 0 0 auto;
+          margin-left: clamp(0.3rem, 0.9vw, 0.6rem);
+          padding: var(--nav-link-padding-block) clamp(0.7rem, 1.6vw, 0.95rem);
         }
       }
     }
@@ -942,6 +977,54 @@
         toggleFormalMode();
       }
     });
+  </script>
+  <script>
+    (function() {
+      const APPLY_CONFIRM_TIMEOUT = 2500;
+      const applyButtons = document.querySelectorAll('.top-nav__apply');
+      if (!applyButtons.length) {
+        return;
+      }
+
+      applyButtons.forEach((button) => {
+        const defaultLabel = button.dataset.defaultLabel || button.textContent.trim();
+        const confirmLabel = button.dataset.confirmLabel || 'Go to Form';
+        let revertTimer = null;
+
+        const resetState = () => {
+          button.classList.remove('is-armed');
+          button.textContent = defaultLabel;
+          button.setAttribute('aria-label', defaultLabel);
+          if (revertTimer) {
+            clearTimeout(revertTimer);
+            revertTimer = null;
+          }
+        };
+
+        button.addEventListener('click', (event) => {
+          if (!button.classList.contains('is-armed')) {
+            event.preventDefault();
+            button.classList.add('is-armed');
+            button.textContent = confirmLabel;
+            button.setAttribute('aria-label', `${confirmLabel} – select again to open form`);
+            if (revertTimer) {
+              clearTimeout(revertTimer);
+            }
+            revertTimer = window.setTimeout(resetState, APPLY_CONFIRM_TIMEOUT);
+            return;
+          }
+
+          resetState();
+        });
+
+        button.addEventListener('blur', () => {
+          if (!button.classList.contains('is-armed')) {
+            return;
+          }
+          resetState();
+        });
+      });
+    })();
   </script>
 
   <svg style="display: none">

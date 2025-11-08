@@ -11,6 +11,7 @@
   <noscript><link href="https://fonts.googleapis.com/css2?family=Questrial&display=swap" rel="stylesheet"></noscript>
   <link rel="preload" href="SiteImages/Title.png" as="image">
   <link rel="preload" href="Title/TitleAnimation.mp4" as="video" type="video/mp4">
+  <link rel="preload" href="Title/TitleStatic.png" as="image">
   <style>
     * {
       margin: 0;
@@ -188,6 +189,12 @@
       box-shadow: inset 0 2px 3px rgba(255, 255, 255, 0.85), 0 8px 24px rgba(11, 34, 60, 0.2);
     }
 
+    .top-nav__apply.is-armed {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.6) 0%, rgba(224, 236, 255, 0.5) 45%, rgba(205, 227, 255, 0.45) 100%);
+      color: #0b223c;
+      box-shadow: inset 0 1.5px 2px rgba(255, 255, 255, 0.8), 0 6px 18px rgba(11, 34, 60, 0.18);
+    }
+
     a {
       text-decoration: none;
     }
@@ -195,9 +202,9 @@
     .hero-section {
       width: 100%;
       min-height: 100vh;
-      height: 110vh;
-      background-color: #f3f3f3;
-      background-attachment: scroll;
+      height: 100vh;
+      margin-bottom: clamp(4rem, 10vw, 6rem);
+      background: #f3f3f3;
       position: relative;
       overflow: hidden;
       contain: layout style paint;
@@ -205,12 +212,42 @@
 
     .hero-video {
       position: absolute;
-      inset: 0;
+      top: -1px;
+      left: 0;
       width: 100%;
-      height: 100%;
+      height: calc(100% + 2px);
       object-fit: cover;
-      object-position: center top;
+      object-position: center;
       z-index: 0;
+      pointer-events: none;
+      background-color: #f3f3f3;
+    }
+
+    @media (max-width: 768px) {
+      .hero-video {
+        display: none;
+      }
+
+      .hero-static {
+        display: block;
+      }
+
+      .hero-section {
+        background: #f3f3f3 url('Title/TitleStatic.png') center center/cover no-repeat;
+        background-position-y: calc(50% - 1px);
+      }
+    }
+
+    .hero-static {
+      position: absolute;
+      top: -1px;
+      left: 0;
+      width: 100%;
+      height: calc(100% + 2px);
+      object-fit: cover;
+      object-position: center;
+      z-index: 0;
+      display: none;
       pointer-events: none;
     }
 
@@ -307,10 +344,10 @@
       --overview-shell-inline: clamp(1.8rem, 4.8vw, 3.4rem);
       --overview-shell-top: clamp(2.6rem, 6.4vw, 3.9rem);
       --overview-shell-bottom: clamp(2.2rem, 5.8vw, 3.4rem);
-      --overview-shell-radius: 14px;
+      --overview-shell-radius: 18px;
       position: relative;
       width: 100%;
-      padding: var(--overview-shell-top) var(--overview-shell-inline) var(--overview-shell-bottom);
+      padding: clamp(1.1rem, 3vw, 1.8rem);
       background: none;
       border-radius: var(--overview-shell-radius);
       box-shadow: none;
@@ -328,109 +365,35 @@
       border-radius: inherit;
     }
 
-    .overview-field-controls {
+    @media (max-width: 767px) {
+      .overview-field-canvas {
+        display: none;
+      }
+    }
+
+    .overview-content-shell {
       position: relative;
-      z-index: 4;
-      margin-left: auto;
-      margin-bottom: clamp(1.4rem, 4vw, 2.3rem);
-      width: min(360px, 48vw);
-      color: #162332;
-      font-size: 0.85rem;
-      border-radius: 1rem;
-      border: 1px solid rgba(22, 35, 50, 0.18);
-      background: rgba(252, 253, 255, 0.9);
-      box-shadow: 0 18px 36px rgba(22, 35, 50, 0.12);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      overflow: hidden;
+      z-index: 2;
+      border-radius: calc(var(--overview-shell-radius) - 0.6rem);
+      background: rgba(255, 255, 255, 0.62);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      padding:
+        calc(var(--overview-shell-top) * 0.7)
+        calc(var(--overview-shell-inline) * 0.7)
+        calc(var(--overview-shell-bottom) * 0.7);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(18px) saturate(140%);
+      -webkit-backdrop-filter: blur(18px) saturate(140%);
     }
 
-    .overview-field-controls summary {
-      cursor: pointer;
-      padding: 0.85rem 1.2rem;
-      font-weight: 600;
-      letter-spacing: 0.02em;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 0.75rem;
-      list-style: none;
-    }
-
-    .overview-field-controls summary::-webkit-details-marker {
-      display: none;
-    }
-
-    .overview-field-controls summary::after {
-      content: '▾';
-      font-size: 0.78rem;
-      transition: transform 0.2s ease;
-    }
-
-    .overview-field-controls[open] summary::after {
-      transform: rotate(-180deg);
-    }
-
-    .overview-field-controls__panel {
-      padding: 1.1rem 1.2rem 1.3rem;
-      display: grid;
-      gap: 0.95rem;
-    }
-
-    .overview-field-control {
-      display: flex;
-      flex-direction: column;
-      gap: 0.45rem;
-    }
-
-    .overview-field-control__label {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 0.75rem;
-      font-weight: 500;
-      color: #162332;
-    }
-
-    .overview-field-control__value {
-      font-variant-numeric: tabular-nums;
-      font-size: 0.78rem;
-      color: rgba(22, 35, 50, 0.6);
-    }
-
-    .overview-field-control input[type="range"] {
-      width: 100%;
-      accent-color: #B31B1B;
-      cursor: pointer;
-    }
-
-    .overview-field-control input[type="color"] {
-      width: 100%;
-      height: 36px;
-      border-radius: 0.6rem;
-      border: 1px solid rgba(22, 35, 50, 0.18);
-      padding: 0.25rem;
-      background: transparent;
-      cursor: pointer;
-    }
-
-    @media (max-width: 720px) {
-      .overview-field-controls {
-        margin: 0 auto clamp(1.2rem, 4vw, 1.8rem);
-        width: min(360px, 100%);
-      }
-      .overview-field-controls summary {
-        justify-content: center;
-      }
-    }
 
     .overview-grid {
       display: grid;
-      grid-template-columns: minmax(420px, 1.15fr) minmax(320px, 0.85fr);
-      gap: clamp(1.35rem, 3vw, 2.5rem);
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: clamp(1.2rem, 2.6vw, 2.2rem);
       align-items: stretch;
       position: relative;
-      z-index: 3;
+      z-index: 2;
     }
 
     .overview-panel {
@@ -438,7 +401,7 @@
       display: flex;
       flex-direction: column;
       gap: clamp(0.75rem, 2vw, 1.1rem);
-      padding: clamp(0.5rem, 2vw, 0.75rem);
+      padding: clamp(1.2rem, 2.4vw, 1.9rem);
       min-height: 100%;
       z-index: 1;
     }
@@ -533,10 +496,11 @@
     @media (max-width: 768px) {
       .top-nav__inner {
         flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: space-between;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
         align-items: center;
-        gap: clamp(0.5rem, 2vw, 1rem);
+        gap: clamp(0.4rem, 1.2vw, 0.75rem);
+        overflow-x: auto;
       }
 
       .top-nav__brand {
@@ -544,40 +508,63 @@
         text-align: left;
       }
 
+      .top-nav__inner > nav {
+        flex: 1 1 auto;
+        min-width: 0;
+        overflow-x: auto;
+      }
+
       .top-nav__list {
         flex: 1 1 auto;
-        flex-wrap: wrap;
-        justify-content: center;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
         align-items: center;
-        gap: clamp(0.5rem, 2vw, 0.75rem);
+        gap: clamp(0.4rem, 1.4vw, 0.65rem);
         margin: 0;
         display: flex;
+        overflow-x: auto;
+        scrollbar-width: none;
+      }
+
+      .top-nav__list::-webkit-scrollbar {
+        display: none;
       }
 
       .top-nav__apply {
         flex: 0 0 auto;
-        min-width: auto;
+        min-width: clamp(112px, 24vw, 140px);
         width: auto;
-        padding: var(--nav-link-padding-block) clamp(1rem, 2.5vw, 1.5rem);
-        font-size: clamp(0.6rem, 1.2vw, 0.75rem);
-        margin-left: 0;
+        padding: var(--nav-link-padding-block) clamp(0.85rem, 2vw, 1.25rem);
+        font-size: clamp(0.58rem, 1.1vw, 0.72rem);
+        margin-left: clamp(0.4rem, 1vw, 0.8rem);
         display: inline-flex;
-      }
-
-      .top-nav__inner {
-        flex-wrap: wrap;
-      }
-
-      .top-nav__inner > nav {
-        display: flex;
+        white-space: nowrap;
       }
 
       .top-nav__link {
         width: auto;
         min-width: auto;
         flex: 0 0 auto;
-        padding: var(--nav-link-padding-block) clamp(0.7rem, 2vw, 1rem);
-        font-size: clamp(0.6rem, 1.2vw, 0.75rem);
+        padding: var(--nav-link-padding-block) clamp(0.6rem, 1.8vw, 0.85rem);
+        font-size: clamp(0.58rem, 1vw, 0.72rem);
+      }
+
+      .top-nav__link,
+      .top-nav__apply {
+        background: transparent;
+        border: none;
+        box-shadow: none;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+      }
+
+      .top-nav__link:hover,
+      .top-nav__link[aria-current="page"],
+      .top-nav__apply:hover,
+      .top-nav__apply.is-armed {
+        background: transparent;
+        border: none;
+        box-shadow: none;
       }
 
       .hero-section {
@@ -596,7 +583,7 @@
       }
 
       .overview-panel {
-        padding: clamp(1rem, 4vw, 1.5rem);
+        padding: clamp(0.9rem, 3.2vw, 1.3rem);
       }
 
       .overview-matrix {
@@ -607,41 +594,46 @@
 
     @media (max-width: 500px) {
       .top-nav__inner {
-        flex-direction: column;
+        flex-direction: row;
+        flex-wrap: nowrap;
         align-items: center;
-        justify-content: center;
-        gap: 0.75rem;
+        justify-content: flex-start;
+        gap: clamp(0.35rem, 1vw, 0.6rem);
       }
 
       .top-nav__brand {
-        width: 100%;
-        text-align: center;
-        margin-bottom: 0.25rem;
-        order: -1;
+        width: auto;
+        text-align: left;
+        margin-bottom: 0;
+        order: 0;
+      }
+
+      .top-nav__inner > nav {
+        flex: 1 1 auto;
+        min-width: 0;
       }
 
       .top-nav__inner > nav,
       .top-nav__apply {
         display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
         align-items: center;
-        gap: clamp(0.5rem, 2vw, 0.75rem);
-        width: 100%;
+        gap: clamp(0.35rem, 1vw, 0.6rem);
+        width: auto;
         margin: 0;
       }
 
       .top-nav__list {
-        flex: none;
-        justify-content: center;
+        flex: 1 1 auto;
+        justify-content: flex-start;
         margin: 0;
         width: auto;
       }
 
       .top-nav__apply {
-        margin-left: 0;
-        display: inline-flex;
-        flex: 0 0 auto;
+        margin-left: clamp(0.3rem, 0.9vw, 0.6rem);
+        padding: var(--nav-link-padding-block) clamp(0.7rem, 1.6vw, 0.95rem);
       }
     }
 
@@ -663,8 +655,11 @@
       .hero-video {
         display: none;
       }
+      .hero-static {
+        display: block;
+      }
       .hero-section {
-        background: url('Title/TitleAnimation (1).png') center top/cover no-repeat;
+        background: url('Title/TitleStatic.png') center top/cover no-repeat;
         background-color: #f3f3f3;
       }
     }
@@ -701,6 +696,14 @@
     >
       <source src="Title/TitleAnimation.mp4" type="video/mp4">
     </video>
+    <img
+      class="hero-static"
+      src="Title/TitleStatic.png"
+      alt=""
+      role="presentation"
+      loading="eager"
+      decoding="async"
+    >
     <h1 class="hero-title">
       <span class="hero-title-text">
         <span class="hero-acronym">CUPI</span>
@@ -715,203 +718,43 @@
   <section class="overview-section" aria-label="Cornell University Physical Intelligence overview">
     <div class="overview-interactive">
       <canvas class="overview-field-canvas" aria-hidden="true"></canvas>
-      <details class="overview-field-controls">
-        <summary>Field Settings</summary>
-        <div class="overview-field-controls__panel">
-          <label class="overview-field-control" for="overview-field-density">
-            <div class="overview-field-control__label">
-              <span>Density</span>
-              <span class="overview-field-control__value" data-field-output="spacing">40</span>
+      <div class="overview-content-shell">
+        <div class="overview-grid">
+          <article class="overview-panel overview-panel--mission">
+            <div class="overview-heading">
+              <p class="overview-eyebrow">Mission:</p>
+              <h2>Intentional design and integration</h2>
             </div>
-            <input
-              id="overview-field-density"
-              type="range"
-              min="20"
-              max="120"
-              step="4"
-              value="40"
-              data-field="spacing"
-              aria-label="Adjust vector field density"
-            >
-          </label>
-          <label class="overview-field-control" for="overview-field-alpha">
-            <div class="overview-field-control__label">
-              <span>Ambient Alpha</span>
-              <span class="overview-field-control__value" data-field-output="baseAlpha">0.03</span>
-            </div>
-            <input
-              id="overview-field-alpha"
-              type="range"
-              min="0.01"
-              max="0.2"
-              step="0.005"
-              value="0.03"
-              data-field="baseAlpha"
-              aria-label="Adjust vector field base opacity"
-            >
-          </label>
-          <label class="overview-field-control" for="overview-field-boost">
-            <div class="overview-field-control__label">
-              <span>Highlight Boost</span>
-              <span class="overview-field-control__value" data-field-output="alphaBoost">0.10</span>
-            </div>
-            <input
-              id="overview-field-boost"
-              type="range"
-              min="0.05"
-              max="0.4"
-              step="0.01"
-              value="0.10"
-              data-field="alphaBoost"
-              aria-label="Adjust vector field highlight intensity"
-            >
-          </label>
-          <label class="overview-field-control" for="overview-field-speed">
-            <div class="overview-field-control__label">
-              <span>Response Speed</span>
-              <span class="overview-field-control__value" data-field-output="speed">0.14</span>
-            </div>
-            <input
-              id="overview-field-speed"
-              type="range"
-              min="0.04"
-              max="0.3"
-              step="0.01"
-              value="0.14"
-              data-field="speed"
-              aria-label="Adjust vector field responsiveness"
-            >
-          </label>
-          <label class="overview-field-control" for="overview-field-length">
-            <div class="overview-field-control__label">
-              <span>Line Length</span>
-              <span class="overview-field-control__value" data-field-output="linePortion">28%</span>
-            </div>
-            <input
-              id="overview-field-length"
-              type="range"
-              min="0.1"
-              max="0.6"
-              step="0.01"
-              value="0.28"
-              data-field="linePortion"
-              aria-label="Adjust vector field line length"
-            >
-          </label>
-          <label class="overview-field-control" for="overview-field-thickness">
-            <div class="overview-field-control__label">
-              <span>Line Thickness</span>
-              <span class="overview-field-control__value" data-field-output="thickness">1.80px</span>
-            </div>
-            <input
-              id="overview-field-thickness"
-              type="range"
-              min="0.4"
-              max="3.5"
-              step="0.05"
-              value="1.8"
-              data-field="thickness"
-              aria-label="Adjust vector field line thickness"
-            >
-          </label>
-          <label class="overview-field-control" for="overview-field-color">
-            <div class="overview-field-control__label">
-              <span>Line Color</span>
-              <span class="overview-field-control__value" data-field-output="lineColor">#1F2B3D</span>
-            </div>
-            <input
-              id="overview-field-color"
-              type="color"
-              value="#1F2B3D"
-              data-field="lineColor"
-              aria-label="Adjust vector field line color"
-            >
-          </label>
-          <label class="overview-field-control" for="overview-field-edge-x">
-            <div class="overview-field-control__label">
-              <span>Horizontal Edge</span>
-              <span class="overview-field-control__value" data-field-output="edgeFractionX">0.24</span>
-            </div>
-            <input
-              id="overview-field-edge-x"
-              type="range"
-              min="0.05"
-              max="0.45"
-              step="0.01"
-              value="0.24"
-              data-field="edgeFractionX"
-              aria-label="Adjust horizontal edge offset"
-            >
-          </label>
-          <label class="overview-field-control" for="overview-field-edge-y">
-            <div class="overview-field-control__label">
-              <span>Vertical Edge</span>
-              <span class="overview-field-control__value" data-field-output="edgeFractionY">0.22</span>
-            </div>
-            <input
-              id="overview-field-edge-y"
-              type="range"
-              min="0.05"
-              max="0.45"
-              step="0.01"
-              value="0.22"
-              data-field="edgeFractionY"
-              aria-label="Adjust vertical edge offset"
-            >
-          </label>
-          <label class="overview-field-control" for="overview-field-radius">
-            <div class="overview-field-control__label">
-              <span>Corner Radius</span>
-              <span class="overview-field-control__value" data-field-output="cornerRadius">14px</span>
-            </div>
-            <input
-              id="overview-field-radius"
-              type="range"
-              min="0"
-              max="48"
-              step="1"
-              value="14"
-              data-field="cornerRadius"
-              aria-label="Adjust container corner radius"
-            >
-          </label>
-        </div>
-      </details>
-      <div class="overview-grid">
-        <article class="overview-panel overview-panel--mission">
-          <div class="overview-heading">
-            <p class="overview-eyebrow">Mission:</p>
-            <h2>Intentional design and integration</h2>
-          </div>
-          <p>
-            CUPI prototypes for embodied autonomy, platforms where structure, sensing, and control are co-designed. We iterate quickly on aerial and terrestrial robots, and we aim to design every system, mechanical, electrical, and software, from the ground up.
-          </p>
-          <p>
-            We have a small team project focused approach, where a group containing members from different subteams takes a project from design to manufacture to integration. This ownership-based management approach gives our engineers the control they need to complete projects efficiently.
-          </p>
-        </article>
+            <p>
+              CUPI prototypes for embodied autonomy, platforms where structure, sensing, and control are co-designed. We iterate quickly on aerial and terrestrial robots, and we aim to design every system, mechanical, electrical, and software, from the ground up.
+            </p>
+            <p>
+              We have a small team project focused approach, where a group containing members from different subteams takes a project from design to manufacture to integration. This ownership-based management approach gives our engineers the control they need to complete projects efficiently.
+            </p>
+          </article>
 
-        <article class="overview-panel overview-panel--teams">
-          <p class="overview-eyebrow">Subteams</p>
-          <div class="overview-matrix">
-            <div class="matrix-item">
-              <span class="matrix-title">Mechanical</span>
-              <p>Airframes, aero surfaces, composites.</p>
+          <article class="overview-panel overview-panel--teams">
+            <p class="overview-eyebrow">Subteams</p>
+            <div class="overview-matrix">
+              <div class="matrix-item">
+                <span class="matrix-title">Mechanical</span>
+                <p>Airframes, aero surfaces, composites.</p>
+              </div>
+              <div class="matrix-item">
+                <span class="matrix-title">Electrical</span>
+                <p>Power systems, sensing, embedded electronics.</p>
+              </div>
+              <div class="matrix-item">
+                <span class="matrix-title">Autonomy</span>
+                <p>Perception, onboard planners, simulation.</p>
+              </div>
+              <div class="matrix-item">
+                <span class="matrix-title">Power</span>
+                <p>Robotic actuators, motors, engines, energy systems.</p>
+              </div>
             </div>
-            <div class="matrix-item">
-              <span class="matrix-title">Electrical</span>
-              <p>Power systems, sensing, embedded electronics.</p>
-            </div>
-            <div class="matrix-item">
-              <span class="matrix-title">Autonomy</span>
-              <p>Perception, onboard planners, simulation.</p>
-            </div>
-            <div class="matrix-item">
-              <span class="matrix-title">Power</span>
-              <p>Robotic actuators, motors, engines, energy systems.</p>
-            </div>
-          </div>
-        </article>
+          </article>
+        </div>
       </div>
     </div>
   </section>
@@ -929,18 +772,17 @@
     const HERO_INTERSECTION_THRESHOLD = 0.05;
     const overviewFieldConfig = {
       spacing: 40,
-      baseAlpha: 0.06,
-      alphaBoost: 0.24,
-      speed: 0.14,
-      linePortion: 0.24,
-      thickness: 2,
+      baseAlpha: 0.12,
+      alphaBoost: 0.35,
+      speed: 0.12,
+      linePortion: 0.35,
+      thickness: 2.4,
       lineColor: '#1F2B3D',
-      edgeFractionX: 0.26,
-      edgeFractionY: 0.24,
-      cornerRadius: 14,
+      cornerRadius: 22,
     };
     const heroSection = document.querySelector('.hero-section');
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const overviewFieldMediaQuery = window.matchMedia('(min-width: 768px)');
     let teardownHeroVideo;
     let teardownOverviewField;
 
@@ -1098,109 +940,13 @@
       const config = overviewFieldConfig;
       const cells = [];
       const pointer = { x: 0, y: 0, active: false };
-      const controls = container.querySelector('.overview-field-controls');
-      const controlInputs = [];
-      const controlCleanup = [];
-      const controlOutputs = new Map();
       const DPR = Math.min(window.devicePixelRatio || 1, 2);
       let width = 0;
       let height = 0;
       let gridSpacing = config.spacing;
       let frame = null;
 
-      const formatDisplayValue = (field, value) => {
-        switch (field) {
-          case 'spacing':
-            return `${Math.round(value)}`;
-          case 'linePortion':
-            return `${Math.round(value * 100)}%`;
-          case 'thickness':
-            return `${Number(value).toFixed(2)}px`;
-          case 'edgeFractionX':
-          case 'edgeFractionY':
-            return Number(value).toFixed(2);
-          case 'cornerRadius':
-            return `${Math.round(value)}px`;
-          case 'baseAlpha':
-          case 'alphaBoost':
-          case 'speed':
-            return Number(value).toFixed(2);
-          case 'lineColor':
-            return String(value).toUpperCase();
-          default:
-            return String(value);
-        }
-      };
-
-      const updateControlOutput = (field, value) => {
-        const targets = controlOutputs.get(field);
-        if (!targets) {
-          return;
-        }
-        const formatted = formatDisplayValue(field, value);
-        targets.forEach((node) => {
-          node.textContent = formatted;
-        });
-      };
-
-      const applyCornerRadius = (radius) => {
-        container.style.setProperty('--overview-shell-radius', `${radius}px`);
-      };
-      applyCornerRadius(config.cornerRadius);
-
-      if (controls) {
-        const inputs = Array.from(controls.querySelectorAll('[data-field]'));
-        inputs.forEach((input) => {
-          const field = input.dataset.field;
-          if (!(field in config)) {
-            return;
-          }
-          controlInputs.push(input);
-          const outputs = Array.from(
-            controls.querySelectorAll(`[data-field-output="${field}"]`)
-          );
-          if (outputs.length) {
-            controlOutputs.set(field, outputs);
-          }
-          const currentValue = config[field];
-          if (input.type === 'color') {
-            input.value = currentValue;
-          } else {
-            input.value = currentValue;
-          }
-          updateControlOutput(field, currentValue);
-
-          const handler = (event) => {
-            let newValue;
-            if (event.target.type === 'color') {
-              newValue = event.target.value;
-              config[field] = String(newValue).toUpperCase();
-              input.value = config[field];
-            } else {
-              newValue = parseFloat(event.target.value);
-              if (!Number.isFinite(newValue)) {
-                return;
-              }
-              config[field] = newValue;
-            }
-
-            if (field === 'cornerRadius') {
-              applyCornerRadius(config[field]);
-            }
-
-            updateControlOutput(field, config[field]);
-
-            if (field === 'spacing' || field === 'edgeFractionX' || field === 'edgeFractionY') {
-              buildGrid();
-            }
-          };
-
-          input.addEventListener('input', handler);
-          controlCleanup.push(() => input.removeEventListener('input', handler));
-        });
-      }
-
-      const normalizeAngle = (value) => Math.atan2(Math.sin(value), Math.cos(value));
+      container.style.setProperty('--overview-shell-radius', `${config.cornerRadius || 18}px`);
 
       const buildGrid = () => {
         if (!width || !height) {
@@ -1223,8 +969,10 @@
         }
       };
 
+      const normalizeAngle = (value) => Math.atan2(Math.sin(value), Math.cos(value));
+
       const resize = () => {
-        const rect = canvas.getBoundingClientRect();
+        const rect = container.getBoundingClientRect();
         width = Math.max(1, Math.round(rect.width));
         height = Math.max(1, Math.round(rect.height));
 
@@ -1259,19 +1007,9 @@
         const finalThickness = Math.max(0.3, Math.min(6, baseThickness * scaleFactor));
         ctx.lineWidth = finalThickness;
         ctx.strokeStyle = config.lineColor || '#1F2B3D';
-        const marginX = Math.max(24, width * (config.edgeFractionX || 0.2));
-        const marginY = Math.max(24, height * (config.edgeFractionY || 0.2));
 
         for (let i = 0; i < cells.length; i += 1) {
           const cell = cells[i];
-          const isEdgeCell =
-            cell.x <= marginX ||
-            cell.x >= width - marginX ||
-            cell.y <= marginY ||
-            cell.y >= height - marginY;
-          if (!isEdgeCell) {
-            continue;
-          }
           const dx = targetX - cell.x;
           const dy = targetY - cell.y;
           const targetAngle = Math.atan2(dy, dx);
@@ -1281,7 +1019,7 @@
           const distance = Math.hypot(dx, dy);
           const strength = 1 - Math.min(1, distance / (maxDistance * 0.85));
           const alpha = config.baseAlpha + strength * config.alphaBoost;
-          ctx.globalAlpha = Math.min(0.5, Math.max(config.baseAlpha, alpha));
+          ctx.globalAlpha = Math.min(0.6, Math.max(config.baseAlpha, alpha));
 
           ctx.save();
           ctx.translate(cell.x, cell.y);
@@ -1333,16 +1071,18 @@
         container.removeEventListener('pointermove', handlePointerMove);
         container.removeEventListener('pointerleave', handlePointerLeave);
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        controlCleanup.forEach((fn) => fn());
       };
     };
+
+    const shouldEnableOverviewField = () =>
+      overviewFieldMediaQuery.matches && !prefersReducedMotion.matches;
 
     const enableOverviewField = () => {
       if (teardownOverviewField) {
         teardownOverviewField();
         teardownOverviewField = null;
       }
-      if (!prefersReducedMotion.matches) {
+      if (shouldEnableOverviewField()) {
         teardownOverviewField = initOverviewVectorField();
       }
     };
@@ -1354,11 +1094,64 @@
 
     applyMotionPreferences();
 
-    if (typeof prefersReducedMotion.addEventListener === 'function') {
-      prefersReducedMotion.addEventListener('change', applyMotionPreferences);
-    } else if (typeof prefersReducedMotion.addListener === 'function') {
-      prefersReducedMotion.addListener(applyMotionPreferences);
-    }
+    const attachMediaListener = (mediaQuery) => {
+      if (typeof mediaQuery.addEventListener === 'function') {
+        mediaQuery.addEventListener('change', applyMotionPreferences);
+      } else if (typeof mediaQuery.addListener === 'function') {
+        mediaQuery.addListener(applyMotionPreferences);
+      }
+    };
+
+    attachMediaListener(prefersReducedMotion);
+    attachMediaListener(overviewFieldMediaQuery);
+  </script>
+  <script>
+    (function() {
+      const APPLY_CONFIRM_TIMEOUT = 2500;
+      const applyButtons = document.querySelectorAll('.top-nav__apply');
+      if (!applyButtons.length) {
+        return;
+      }
+
+      applyButtons.forEach((button) => {
+        const defaultLabel = button.dataset.defaultLabel || button.textContent.trim();
+        const confirmLabel = button.dataset.confirmLabel || 'Go to Form';
+        let revertTimer = null;
+
+        const resetState = () => {
+          button.classList.remove('is-armed');
+          button.textContent = defaultLabel;
+          button.setAttribute('aria-label', defaultLabel);
+          if (revertTimer) {
+            clearTimeout(revertTimer);
+            revertTimer = null;
+          }
+        };
+
+        button.addEventListener('click', (event) => {
+          if (!button.classList.contains('is-armed')) {
+            event.preventDefault();
+            button.classList.add('is-armed');
+            button.textContent = confirmLabel;
+            button.setAttribute('aria-label', `${confirmLabel} – select again to open form`);
+            if (revertTimer) {
+              clearTimeout(revertTimer);
+            }
+            revertTimer = window.setTimeout(resetState, APPLY_CONFIRM_TIMEOUT);
+            return;
+          }
+
+          resetState();
+        });
+
+        button.addEventListener('blur', () => {
+          if (!button.classList.contains('is-armed')) {
+            return;
+          }
+          resetState();
+        });
+      });
+    })();
   </script>
 </body>
 </html>

@@ -1542,3 +1542,30 @@ body.scrolled-once .spacer::after {
     opacity: 0;
   }
 }
+
+/* Prevent animation replay on navigation by hiding debug elements permanently after first play */
+body.debug-hidden .content-section::before,
+body.debug-hidden .title-wrapper::before,
+body.debug-hidden .ascii-logo::before,
+body.debug-hidden .ascii-logo__visual::before,
+body.debug-hidden .ascii-text-container::before,
+body.debug-hidden .main-title::before,
+body.debug-hidden .main-subtitle::before,
+body.debug-hidden .mobile-hero::before,
+body.debug-hidden .mobile-hero__visual::before,
+body.debug-hidden .mobile-hero__subtitle::before,
+body.debug-hidden .spacer::before,
+body.debug-hidden .content-section::after,
+body.debug-hidden .title-wrapper::after,
+body.debug-hidden .ascii-logo::after,
+body.debug-hidden .ascii-logo__visual::after,
+body.debug-hidden .ascii-text-container::after,
+body.debug-hidden .main-title::after,
+body.debug-hidden .main-subtitle::after,
+body.debug-hidden .mobile-hero::after,
+body.debug-hidden .mobile-hero__visual::after,
+body.debug-hidden .mobile-hero__subtitle::after,
+body.debug-hidden .spacer::after {
+  animation: none !important;
+  opacity: 0 !important;
+}

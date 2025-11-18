@@ -12,10 +12,20 @@ const stats = [
   { label: 'Subteams', value: 4 }
 ];
 
-function MissionTiles() {
+function MissionTiles({ played, onPlay }) {
   const statRefs = useRef([]);
 
   useEffect(() => {
+    if (played) {
+      // If already played, ensure elements are visible immediately
+      statRefs.current.forEach(el => {
+        if (el) {
+          gsap.set(el, { opacity: 1, y: 0 });
+        }
+      });
+      return;
+    }
+
     const elements = statRefs.current;
     const animations = elements.map((el) => {
       if (!el) return null;
@@ -31,7 +41,8 @@ function MissionTiles() {
           scrollTrigger: {
             trigger: el,
             start: 'top bottom-=15%',
-            once: true
+            once: true,
+            onEnter: () => onPlay && onPlay()
           }
         }
       );
@@ -40,7 +51,7 @@ function MissionTiles() {
     return () => {
       animations.forEach((animation) => animation?.kill());
     };
-  }, []);
+  }, [played, onPlay]);
 
   return (
     <section className="mission-tiles">
@@ -63,11 +74,12 @@ function MissionTiles() {
               }}
             >
               <CountUp
-                from={0}
+                from={played ? stat.value : 0}
                 to={stat.value}
                 separator=","
                 direction="up"
-                duration={1}
+                duration={played ? 0 : 1}
+                startWhen={!played}
                 className="mission-stat__value"
               />
               <span className="mission-stat__label">{stat.label}</span>

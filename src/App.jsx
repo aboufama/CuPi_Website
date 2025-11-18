@@ -135,6 +135,7 @@ function App() {
   const [teamCardTilt, setTeamCardTilt] = useState({});
   const [showAsciiText, setShowAsciiText] = useState(false);
   const [isCompactHero, setIsCompactHero] = useState(false);
+  const [missionTilesPlayed, setMissionTilesPlayed] = useState(false);
   const debugCollapseTriggeredRef = useRef(false);
   const heroFontFamily = HERO_FONT_FAMILY;
   const heroAsciiConfig = isCompactHero
@@ -169,7 +170,6 @@ function App() {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'auto' });
     document.body.classList.remove('scrolled');
-    debugCollapseTriggeredRef.current = false;
   }, [currentPage]);
 
   useEffect(() => {
@@ -202,9 +202,13 @@ function App() {
       const scrollY = window.scrollY || window.pageYOffset;
       if (scrollY > 0) {
         document.body.classList.add('scrolled');
+        // Only trigger the debug collapse animation once per session
         if (!debugCollapseTriggeredRef.current) {
           debugCollapseTriggeredRef.current = true;
           document.body.classList.add('scrolled-once');
+          setTimeout(() => {
+            document.body.classList.add('debug-hidden');
+          }, 500);
         }
       } else {
         document.body.classList.remove('scrolled');
@@ -372,7 +376,7 @@ function App() {
             {renderHeroSection()}
             <div className="spacer" />
           </div>
-          <MissionTiles />
+          <MissionTiles played={missionTilesPlayed} onPlay={() => setMissionTilesPlayed(true)} />
           <SiteFooter />
         </>
       );

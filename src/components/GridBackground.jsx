@@ -33,19 +33,19 @@ const GridBackground = () => {
       canvas.width = window.innerWidth;
       canvas.height = scrollHeight;
       canvas.style.height = `${scrollHeight}px`;
-      
+
       const newCols = Math.floor(canvas.width / gridSize);
       const newRows = Math.floor(canvas.height / gridSize);
-      
+
       // Only reinitialize if size changed
       if (newCols !== cols || newRows !== rows) {
         cols = newCols;
         rows = newRows;
-        
+
         // Initialize grids
         grid = Array(rows).fill(null).map(() => Array(cols).fill(0));
         nextGrid = Array(rows).fill(null).map(() => Array(cols).fill(0));
-        
+
         // Random initial state
         for (let i = 0; i < rows; i++) {
           for (let j = 0; j < cols; j++) {
@@ -85,12 +85,12 @@ const GridBackground = () => {
 
     const updateGrid = () => {
       if (rows === 0 || cols === 0) return;
-      
+
       for (let i = 0; i < rows; i++) {
         for (let j = 0; j < cols; j++) {
           const neighbors = countNeighbors(grid, i, j, rows, cols);
           const state = grid[i][j];
-          
+
           // Game of Life rules
           if (state === 0 && neighbors === 3) {
             nextGrid[i][j] = 1; // Birth
@@ -101,7 +101,7 @@ const GridBackground = () => {
           }
         }
       }
-      
+
       // Swap grids
       const temp = grid;
       grid = nextGrid;
@@ -133,7 +133,7 @@ const GridBackground = () => {
           if (grid[i][j] === 1) {
             const x = j * gridSize + (gridSize - cellSize) / 2;
             const y = i * gridSize + (gridSize - cellSize) / 2;
-            
+
             // Draw rounded square with 10% opacity
             ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
             drawRoundedRect(x, y, cellSize, cellSize, cornerRadius);
@@ -144,19 +144,20 @@ const GridBackground = () => {
     };
 
     let frameCount = 0;
+    let animationFrameId;
     const animate = () => {
       frameCount++;
-      
+
       // Update grid every 150 frames (~20% speed)
       if (frameCount % 150 === 0 && rows > 0 && cols > 0) {
         updateGrid();
       }
-      
+
       if (rows > 0 && cols > 0) {
         draw();
       }
-      
-      requestAnimationFrame(animate);
+
+      animationFrameId = requestAnimationFrame(animate);
     };
 
     animate();
@@ -164,6 +165,9 @@ const GridBackground = () => {
     return () => {
       if (resizeFrame !== null) {
         cancelAnimationFrame(resizeFrame);
+      }
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
       }
       window.removeEventListener('resize', scheduleResize);
       sizeObserver.disconnect();

@@ -35,6 +35,7 @@ body {
   position: relative;
   display: flex;
   align-items: center;
+  justify-content: center;
   background: none;
   border: none;
   color: white;
@@ -46,6 +47,18 @@ body {
   cursor: pointer;
   font-family: inherit;
   padding: 0;
+  min-width: 60px;
+  z-index: 1;
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.8), 0 0 4px rgba(0, 0, 0, 0.6);
+}
+
+.menu-item--apply {
+  min-width: 100px;
+  cursor: default;
+}
+
+.menu-item--apply.is-clickable {
+  cursor: pointer;
 }
 
 .menu-item:hover {
@@ -54,15 +67,6 @@ body {
 
 .menu-item.active {
   opacity: 1;
-}
-
-.menu-dot {
-  position: absolute;
-  right: -12px;
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background-color: white;
 }
 
 .content-section {
@@ -137,6 +141,7 @@ body {
   background-attachment: fixed;
   -webkit-text-fill-color: transparent;
   -webkit-background-clip: text;
+  background-clip: text;
   z-index: 9;
   mix-blend-mode: difference;
   font-family: var(--ascii-font-family, 'IBM Plex Mono', 'Courier New', monospace);
@@ -548,7 +553,7 @@ body {
   z-index: 1;
 }
 
-.alt-page > .site-footer {
+.alt-page>.site-footer {
   margin-top: auto;
   padding-top: clamp(12px, 1.2vw, 18px);
   padding-bottom: clamp(12px, 1.8vw, 18px);
@@ -606,7 +611,7 @@ body {
   margin-top: clamp(12px, 4vw, 48px);
 }
 
-.alt-section--team .alt-section__title-row + .alt-section__lead {
+.alt-section--team .alt-section__title-row+.alt-section__lead {
   margin-top: 0;
 }
 
@@ -860,6 +865,7 @@ body {
 .project-panel__details p:last-child {
   margin-bottom: 0;
 }
+
 .project-panel__details--soon {
   display: flex;
   align-items: center;
@@ -1529,15 +1535,19 @@ body.scrolled-once .spacer::after {
   0% {
     opacity: 1;
   }
+
   25% {
     opacity: 0.15;
   }
+
   50% {
     opacity: 1;
   }
+
   75% {
     opacity: 0.1;
   }
+
   100% {
     opacity: 0;
   }

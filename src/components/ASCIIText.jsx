@@ -42,7 +42,7 @@ void main() {
 }
 `;
 
-Math.map = function (n, start, stop, start2, stop2) {
+const mapRange = (n, start, stop, start2, stop2) => {
   return ((n - start) / (stop - start)) * (stop2 - start2) + start2;
 };
 

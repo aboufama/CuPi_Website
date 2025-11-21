@@ -1,4 +1,5 @@
 import { Suspense, lazy, useEffect, useRef, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import GlassSurface from './components/GlassSurface';
 import GridBackground from './components/GridBackground';
 import MissionTiles from './components/MissionTiles';
@@ -136,6 +137,8 @@ function App() {
   const [showAsciiText, setShowAsciiText] = useState(false);
   const [isCompactHero, setIsCompactHero] = useState(false);
   const [missionTilesPlayed, setMissionTilesPlayed] = useState(false);
+  const [applyHovered, setApplyHovered] = useState(false);
+  const [isApplyClickable, setIsApplyClickable] = useState(false);
   const debugCollapseTriggeredRef = useRef(false);
   const heroFontFamily = HERO_FONT_FAMILY;
   const heroAsciiConfig = isCompactHero
@@ -159,8 +162,23 @@ function App() {
     saturation: 1
   };
 
+  useEffect(() => {
+    let timeout;
+    if (applyHovered) {
+      // Animation is 0.2s, so we wait 0.5s total for a 0.3s buffer
+      timeout = setTimeout(() => {
+        setIsApplyClickable(true);
+      }, 500);
+    } else {
+      setIsApplyClickable(false);
+    }
+    return () => clearTimeout(timeout);
+  }, [applyHovered]);
+
   const handleApplyClick = () => {
-    window.open(APPLY_URL, '_blank', 'noopener,noreferrer');
+    if (isApplyClickable) {
+      window.open(APPLY_URL, '_blank', 'noopener,noreferrer');
+    }
   };
 
   const handleNavClick = (page) => {
@@ -315,9 +333,9 @@ function App() {
       prev[panelKey] === side
         ? prev
         : {
-            ...prev,
-            [panelKey]: side
-          }
+          ...prev,
+          [panelKey]: side
+        }
     );
   };
 
@@ -401,9 +419,8 @@ function App() {
                 onMouseMove={(event) => handlePanelMouseMove('quad', event)}
               >
                 <div
-                  className={`project-panel__flipper ${flipDirection.quad === 'left' ? 'flip-left' : 'flip-right'} ${
-                    flippedPanels.quad ? 'is-flipped' : ''
-                  } ${panelHoverSide.quad ? `tilt-${panelHoverSide.quad}` : ''}`}
+                  className={`project-panel__flipper ${flipDirection.quad === 'left' ? 'flip-left' : 'flip-right'} ${flippedPanels.quad ? 'is-flipped' : ''
+                    } ${panelHoverSide.quad ? `tilt-${panelHoverSide.quad}` : ''}`}
                   data-panel="quad"
                 >
                   <div className="project-panel__face project-panel__face--front" data-zoom="in">
@@ -452,9 +469,8 @@ function App() {
                 onMouseMove={(event) => handlePanelMouseMove('hexapod', event)}
               >
                 <div
-                  className={`project-panel__flipper ${flipDirection.hexapod === 'left' ? 'flip-left' : 'flip-right'} ${
-                    flippedPanels.hexapod ? 'is-flipped' : ''
-                  } ${panelHoverSide.hexapod ? `tilt-${panelHoverSide.hexapod}` : ''}`}
+                  className={`project-panel__flipper ${flipDirection.hexapod === 'left' ? 'flip-left' : 'flip-right'} ${flippedPanels.hexapod ? 'is-flipped' : ''
+                    } ${panelHoverSide.hexapod ? `tilt-${panelHoverSide.hexapod}` : ''}`}
                   data-panel="hexapod"
                 >
                   <div className="project-panel__face project-panel__face--front" data-zoom="bird">
@@ -502,9 +518,8 @@ function App() {
                 onMouseMove={(event) => handlePanelMouseMove('swallow', event)}
               >
                 <div
-                  className={`project-panel__flipper ${flipDirection.swallow === 'left' ? 'flip-left' : 'flip-right'} ${
-                    flippedPanels.swallow ? 'is-flipped' : ''
-                  } ${panelHoverSide.swallow ? `tilt-${panelHoverSide.swallow}` : ''}`}
+                  className={`project-panel__flipper ${flipDirection.swallow === 'left' ? 'flip-left' : 'flip-right'} ${flippedPanels.swallow ? 'is-flipped' : ''
+                    } ${panelHoverSide.swallow ? `tilt-${panelHoverSide.swallow}` : ''}`}
                   data-panel="swallow"
                 >
                   <div className="project-panel__face project-panel__face--front project-panel__face--placeholder">
@@ -571,9 +586,8 @@ function App() {
 
                       return (
                         <article
-                          className={`team-card ${isFlipped ? 'is-flipped' : ''} ${
-                            teamCardTilt[cardId] ? `tilt-${teamCardTilt[cardId]}` : ''
-                          }`}
+                          className={`team-card ${isFlipped ? 'is-flipped' : ''} ${teamCardTilt[cardId] ? `tilt-${teamCardTilt[cardId]}` : ''
+                            }`}
                           key={member.name}
                           tabIndex={0}
                           onClick={() => toggleBioCard(cardId)}
@@ -630,9 +644,8 @@ function App() {
 
                     return (
                       <article
-                        className={`team-card ${isFlipped ? 'is-flipped' : ''} ${
-                          teamCardTilt[cardId] ? `tilt-${teamCardTilt[cardId]}` : ''
-                        }`}
+                        className={`team-card ${isFlipped ? 'is-flipped' : ''} ${teamCardTilt[cardId] ? `tilt-${teamCardTilt[cardId]}` : ''
+                          }`}
                         key={prof.name}
                         tabIndex={0}
                         onClick={() => toggleBioCard(cardId)}
@@ -688,7 +701,7 @@ function App() {
     <div className="demo-container">
       <GridBackground />
       <nav className="menu-bar">
-        <GlassSurface 
+        <GlassSurface
           width="auto"
           height={44}
           {...glassSettings}
@@ -699,28 +712,49 @@ function App() {
               className={`menu-item ${currentPage === 'home' ? 'active' : ''}`}
             >
               HOME
-              {currentPage === 'home' && <span className="menu-dot" />}
             </button>
             <button
               onClick={() => handleNavClick('work')}
               className={`menu-item ${currentPage === 'work' ? 'active' : ''}`}
             >
               WORK
-              {currentPage === 'work' && <span className="menu-dot" />}
             </button>
             <button
               onClick={() => handleNavClick('about')}
               className={`menu-item ${currentPage === 'about' ? 'active' : ''}`}
             >
               ABOUT
-              {currentPage === 'about' && <span className="menu-dot" />}
             </button>
-            <button 
+            <button
               onClick={handleApplyClick}
-              className="menu-item"
+              className={`menu-item menu-item--apply ${isApplyClickable ? 'is-clickable' : ''}`}
               type="button"
+              onMouseEnter={() => setApplyHovered(true)}
+              onMouseLeave={() => setApplyHovered(false)}
             >
-              APPLY
+              <AnimatePresence mode="wait" initial={false}>
+                {applyHovered ? (
+                  <motion.span
+                    key="goto"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    GO TO FORM
+                  </motion.span>
+                ) : (
+                  <motion.span
+                    key="apply"
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 10 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    APPLY
+                  </motion.span>
+                )}
+              </AnimatePresence>
             </button>
           </div>
         </GlassSurface>
